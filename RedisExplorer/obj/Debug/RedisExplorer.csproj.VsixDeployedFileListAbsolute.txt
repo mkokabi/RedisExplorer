@@ -1,0 +1,7 @@
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\RedisExplorer.dll
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\RedisExplorer.pkgdef
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\extension.vsixmanifest
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\RedisExplorer.pdb
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\StackExchange.Redis.Signed.dll
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\RedisBoost.Signed.dll
+C:\Users\Mohsen\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\DimensionData\RedisExplorer\1.0\\StackExchange.Redis.dll
