@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("RedisExplorer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DimensionData")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RedisExplorer")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
