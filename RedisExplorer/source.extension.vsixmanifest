@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-	<Identity Id="27da9abe-6c36-4802-a5ef-6cfee788304e" Version="0.1" Language="en-US" Publisher="Mohsen" />
-	<DisplayName>RedisExplorer</DisplayName>
-	<Description xml:space="preserve">Information about my package</Description>
+	<Identity Id="27da9abe-6c36-4802-a5ef-6cfee788304e" Version="0.1.1" Language="en-US" Publisher="Mohsen" />
+	<DisplayName>Redis Explorer (Beta)</DisplayName>
+	<Description xml:space="preserve">Redis Explorer (Beta)</Description>
 	<Icon>Resources\Package.ico</Icon>
 	<PreviewImage>Resources\Package.ico</PreviewImage>
   </Metadata>

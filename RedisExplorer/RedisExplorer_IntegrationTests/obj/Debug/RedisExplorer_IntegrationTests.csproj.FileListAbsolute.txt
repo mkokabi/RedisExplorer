@@ -7,3 +7,13 @@ C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\obj\Debug\RedisExplorer_IntegrationTests.csprojResolveAssemblyReference.cache
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\obj\Debug\RedisExplorer_IntegrationTests.dll
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\obj\Debug\RedisExplorer_IntegrationTests.pdb
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\Resources\Package.ico
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.dll
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.xml
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_IntegrationTests\bin\Debug\GalaSoft.MvvmLight.Extras.xml

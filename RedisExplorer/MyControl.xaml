@@ -11,10 +11,10 @@
 	<Grid>
 		<DockPanel LastChildFill="True">
 			<DockPanel DockPanel.Dock="Top" LastChildFill="True">
-				<Button Content="Connect" Click="Connect_Click" Width="100" DockPanel.Dock="Right"/>
-				<TextBox Name="urlTextBox">localhost:6379</TextBox>
+				<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="100" DockPanel.Dock="Right"/>
+				<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}"></TextBox>
 			</DockPanel>
-			<DataGrid Name="_dataGrid" ItemsSource="{Binding}" AutoGenerateColumns="True"></DataGrid>
+			<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="True" IsReadOnly="True"></DataGrid>
 		</DockPanel>
 	</Grid>
 </UserControl>
