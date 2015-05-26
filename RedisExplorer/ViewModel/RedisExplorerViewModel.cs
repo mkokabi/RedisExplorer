@@ -91,7 +91,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 		{
 			get
 			{
-				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<RedisData>(selectedItem => { SwitchToEditMode(selectedItem); }));
+				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<RedisData>(selectedItem => { /* SwitchToEditMode(selectedItem);*/ }));
 			}
 		} 
 		#endregion
