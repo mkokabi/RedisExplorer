@@ -3,6 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			 Background="{DynamicResource VsBrush.Window}"
 			 Foreground="{DynamicResource VsBrush.WindowText}"
 			 mc:Ignorable="d"
@@ -14,7 +16,53 @@
 				<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="100" DockPanel.Dock="Right"/>
 				<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}"></TextBox>
 			</DockPanel>
-			<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="True" IsReadOnly="True"></DataGrid>
+			<DockPanel DockPanel.Dock="Top" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
+				<ToolBarTray DockPanel.Dock="Top">
+					<ToolBar DockPanel.Dock="Top" >
+						<Button Command="{Binding Path=SaveCommand}">Save</Button>
+						<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
+					</ToolBar>
+				</ToolBarTray>
+				<Grid DockPanel.Dock="Top">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"></RowDefinition>
+						<RowDefinition Height="Auto"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="50"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<Label Grid.Row="0" Grid.Column="0">Edit</Label>
+					<Label Grid.Row="1" Grid.Column="0">Key</Label>
+					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SelectedItem.Key}" IsReadOnly="True"></TextBox>
+					<Label Grid.Row="2" Grid.Column="0">Value</Label>
+					<TextBox Name="_textBox" Grid.Row="2" Grid.Column="1" Text="{Binding Mode=OneWay, Path=SelectedItem.Value}" >
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="LostFocus">
+								<Command:EventToCommand 
+									Command="{Binding Path=ValueChangedCommand}" 
+									CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</TextBox>
+				</Grid>
+			</DockPanel>
+			<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="SelectionChanged">
+						<Command:EventToCommand Command="{Binding RowChangedCommand}" CommandParameter="{Binding SelectedItems, ElementName=_dataGrid}" />
+					</i:EventTrigger>
+					<i:EventTrigger EventName="MouseDoubleClick">
+						<Command:EventToCommand Command="{Binding GridDoubleClickCommand}" CommandParameter="{Binding SelectedItem, ElementName=_dataGrid}" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
+					<DataGridTextColumn Header="Value" Binding="{Binding Text}" ></DataGridTextColumn>
+				</DataGrid.Columns>
+			</DataGrid>
 		</DockPanel>
 	</Grid>
 </UserControl>
