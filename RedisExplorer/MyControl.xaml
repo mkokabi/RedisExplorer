@@ -12,10 +12,19 @@
 			 Name="MyToolWindow">
 	<Grid>
 		<DockPanel LastChildFill="True">
-			<DockPanel DockPanel.Dock="Top" LastChildFill="True">
-				<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="100" DockPanel.Dock="Right"/>
-				<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}"></TextBox>
-			</DockPanel>
+			<Grid DockPanel.Dock="Top">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="55" />
+				</Grid.ColumnDefinitions>
+				<DockPanel LastChildFill="True" Grid.Column="0">
+					<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="50" DockPanel.Dock="Right"/>
+					<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}"></TextBox>
+				</DockPanel>
+				<ComboBox Name="dbsComboBox" Grid.Column="1"
+						ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
+				</ComboBox>
+			</Grid>
 			<DockPanel DockPanel.Dock="Top" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
 				<ToolBarTray DockPanel.Dock="Top">
 					<ToolBar DockPanel.Dock="Top" >

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
@@ -10,17 +11,23 @@ using System.Windows.Input;
 
 namespace DimensionData.RedisExplorer.ViewModel
 {
-
-
 	using GalaSoft.MvvmLight.Command;
 
 	using StackExchange.Redis;
+
+	using MessageBox = System.Windows.MessageBox;
 
 	public class RedisExplorerViewModel
 		: INotifyPropertyChanged
 	{
 		#region Private fields
 		string redisUrl;
+
+		ConnectionMultiplexer redisConnection;
+
+		IServer redisServer;
+
+		string currentDatabase;
 
 		bool editMode;
 
@@ -37,11 +44,13 @@ namespace DimensionData.RedisExplorer.ViewModel
 		ICommand rowChangedCommand;
 
 		ICommand gridDoubleClickCommand;
+
 		#endregion
 
 		public RedisExplorerViewModel()
 		{
 			KeyValueCollection = new RedisDataCollection();
+			Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
 		}
@@ -113,6 +122,32 @@ namespace DimensionData.RedisExplorer.ViewModel
 			}
 		}
 
+		public ObservableCollection<string> Databases
+		{
+			get;
+			set;
+		}
+
+		public string CurrentDatabase
+		{
+			get
+			{
+				return this.currentDatabase;
+			}
+			set
+			{
+				if (currentDatabase != value)
+				{
+					this.currentDatabase = value;
+					this.OnPropertyChanged("CurrentDatabase");
+
+					int databaseIndex = int.Parse(this.CurrentDatabase.Replace("db", ""));
+					IDatabase redisDatabase = redisConnection.GetDatabase(databaseIndex);
+					this.LoadData(redisDatabase);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Gets or sets the key value collection.
 		/// </summary>
@@ -177,11 +212,26 @@ namespace DimensionData.RedisExplorer.ViewModel
 		{
 			try
 			{
-				ConnectionMultiplexer redisConnection = ConnectionMultiplexer.Connect(this.RedisUrl);
+				redisConnection = ConnectionMultiplexer.Connect(this.RedisUrl + ",allowAdmin=true");
 				EndPoint[] endpoints = redisConnection.GetEndPoints();
-				IServer redisServer = redisConnection.GetServer(endpoints[0]);
-				IEnumerable<RedisKey> keys = redisServer.Keys(pageSize: 10);
-				var redisDatabase = redisConnection.GetDatabase();
+				redisServer = redisConnection.GetServer(endpoints[0]);
+				IGrouping<string, KeyValuePair<string, string>>[] infos = redisServer.Info();
+				var keyspace = infos.FirstOrDefault(info => info.Key == "Keyspace");
+				var dbsKeyspaceInfo = keyspace.Where(info => info.Key.StartsWith("db"));
+				dbsKeyspaceInfo.Select(db => db.Key).ToList().ForEach(dbName => Databases.Add(dbName));
+				CurrentDatabase = Databases[0];
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(string.Format("Can not connect to {0}. {1}", this.RedisUrl, ex.Message), "Redis Explorer");
+			}
+		}
+
+		public void LoadData(IDatabase redisDatabase)
+		{
+			try
+			{
+				IEnumerable<RedisKey> keys = redisServer.Keys(pageSize: 10, database: redisDatabase.Database);
 				KeyValueCollection.Clear();
 				keys.ToList().ForEach(key =>
 					{
