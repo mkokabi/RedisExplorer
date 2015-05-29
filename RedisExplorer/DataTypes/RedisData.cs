@@ -34,6 +34,12 @@ namespace DimensionData.RedisExplorer
 			set;
 		}
 
+		public IEnumerable<SortedSetEntry> SortedSet
+		{
+			get;
+			set;
+		}
+
 		public RedisType Type
 		{
 			get;
@@ -68,6 +74,12 @@ namespace DimensionData.RedisExplorer
 			this.Hash = hash;
 		}
 
+		public RedisData(string key, IEnumerable<SortedSetEntry> sortedSet)
+			: this(key, RedisType.SortedSet)
+		{
+			this.SortedSet = sortedSet;
+		}
+
 		/// <summary>
 		/// Returns a string that represents the current object.
 		/// </summary>
@@ -83,17 +95,25 @@ namespace DimensionData.RedisExplorer
 		{
 			get
 			{
-				if (Type == RedisType.String)
+				switch (Type)
 				{
-					return this.Value;
-				}
-				if (Type == RedisType.List)
-				{
-					return String.Join(",", this.Values.ToStringArray());
-				}
-				if (Type == RedisType.Hash)
-				{
-					return String.Join(",", this.Hash.Select(item => string.Format("{0}:{1}", item.Name, item.Value)).ToArray());
+					case RedisType.String:
+						{
+							return this.Value;
+						}
+					case RedisType.List:
+						{
+							return String.Join(",", this.Values.ToStringArray());
+						}
+					case RedisType.Set:
+					case RedisType.Hash:
+						{
+							return String.Join(",", this.Hash.Select(item => string.Format("{0}:{1}", item.Name, item.Value)).ToArray());
+						}
+					case RedisType.SortedSet:
+						{
+							return String.Join(",", this.SortedSet.Select(item => string.Format("{0}:{1}", item.Element, item.Score)).ToArray());
+						}
 				}
 				return base.ToString();
 			}

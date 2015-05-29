@@ -237,17 +237,33 @@ namespace DimensionData.RedisExplorer.ViewModel
 					{
 						try
 						{
-							if (redisDatabase.KeyType(key) == RedisType.String)
+							switch (redisDatabase.KeyType(key))
 							{
-								KeyValueCollection.Add(new RedisData(key, redisDatabase.StringGet(key)));
-							}
-							if (redisDatabase.KeyType(key) == RedisType.List)
-							{
-								KeyValueCollection.Add(new RedisData(key, redisDatabase.ListRange(key)));
-							}
-							if (redisDatabase.KeyType(key) == RedisType.Hash)
-							{
-								KeyValueCollection.Add(new RedisData(key, redisDatabase.HashGetAll(key)));
+								case RedisType.String:
+									{
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.StringGet(key)));
+										break;
+									}
+								case RedisType.List:
+									{
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.ListRange(key)));
+										break;
+									}
+								case RedisType.Hash:
+									{
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.HashGetAll(key)));
+										break;
+									}
+								case RedisType.Set:
+									{
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.SetMembers(key)));
+										break;
+									}
+								case RedisType.SortedSet:
+									{
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.SortedSetScan(key)));
+										break;
+									}
 							}
 						}
 						catch (Exception ex)

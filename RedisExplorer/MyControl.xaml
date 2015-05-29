@@ -69,6 +69,7 @@
 				</i:Interaction.Triggers>
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
+					<DataGridTextColumn Header="Type" Binding="{Binding Type}" ></DataGridTextColumn>
 					<DataGridTextColumn Header="Value" Binding="{Binding Text}" ></DataGridTextColumn>
 				</DataGrid.Columns>
 			</DataGrid>
