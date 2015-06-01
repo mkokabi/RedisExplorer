@@ -100,7 +100,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 		{
 			get
 			{
-				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<RedisData>(selectedItem => { /* SwitchToEditMode(selectedItem);*/ }));
+				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<RedisData>(selectedItem => { SwitchToEditMode(selectedItem); }));
 			}
 		} 
 		#endregion
@@ -283,7 +283,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 		public void SwitchToEditMode(RedisData redisData)
 		{
 			this.EditMode = true;
-			MessageBox.Show("SwitchToEditMode " + redisData.Key + " " + redisData.Value);
+			// MessageBox.Show("SwitchToEditMode " + redisData.Key + " " + redisData.Value);
 		}
 		
 		public void Save()
