@@ -32,7 +32,7 @@
 						<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
 					</ToolBar>
 				</ToolBarTray>
-				<Controls:StringValueEditor Data="{Binding Path=SelectedItem}" />
+				<Controls:StringValueEditor />
 			</DockPanel>
 			<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">

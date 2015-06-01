@@ -45,6 +45,8 @@ namespace DimensionData.RedisExplorer.ViewModel
 
 		ICommand gridDoubleClickCommand;
 
+		StringValueEditorViewModel selectedValueEditorViewModel;
+
 		#endregion
 
 		public RedisExplorerViewModel()
@@ -53,6 +55,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 			Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
+			selectedValueEditorViewModel = new ViewModelLocator().StringValueEditorViewModel;
 		}
 
 		#region Commands
@@ -117,7 +120,23 @@ namespace DimensionData.RedisExplorer.ViewModel
 				if (value != selectedItem)
 				{
 					this.selectedItem = value;
-					this.OnPropertyChanged("SelectedItem");
+					this.OnPropertyChanged("data");
+				}
+			}
+		}
+
+		public StringValueEditorViewModel SelectedValueEditorViewModel
+		{
+			get
+			{
+				return selectedValueEditorViewModel;
+			}
+			set
+			{
+				if (value != selectedValueEditorViewModel)
+				{
+					this.selectedValueEditorViewModel = value;
+					this.OnPropertyChanged("SelectedValueEditorViewModel");
 				}
 			}
 		}
@@ -283,6 +302,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 		public void SwitchToEditMode(RedisData redisData)
 		{
 			this.EditMode = true;
+			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
 			// MessageBox.Show("SwitchToEditMode " + redisData.Key + " " + redisData.Value);
 		}
 		

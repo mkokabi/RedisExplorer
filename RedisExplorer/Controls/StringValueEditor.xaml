@@ -5,10 +5,16 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
+			 xmlns:ViewModel="clr-namespace:DimensionData.RedisExplorer.ViewModel"
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300">
 	<Grid DockPanel.Dock="Top">
+		<!--<Grid.Resources>
+			<DataTemplate DataType="{x:Type ViewModel:StringValueEditorViewModel}">
+				<TextBox Text="{Binding Mode=OneWay, Path=Value, ElementName=sveUC}" />
+			</DataTemplate>
+		</Grid.Resources>-->
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -20,9 +26,11 @@
 		</Grid.ColumnDefinitions>
 		<Label Grid.Row="0" Grid.Column="0">Edit</Label>
 		<Label Grid.Row="1" Grid.Column="0">Key</Label>
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key, ElementName=sveUC}" IsReadOnly="True"></TextBox>
+		<!--<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key, ElementName=sveUC}" IsReadOnly="True"></TextBox>-->
+		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="True"></TextBox>
 		<Label Grid.Row="2" Grid.Column="0">Value</Label>
-		<TextBox Name="_textBox" Grid.Row="2" Grid.Column="1" Text="{Binding Mode=OneWay, Path=Data.Value, ElementName=sveUC}" >
+		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}"></ContentControl>
+		<!--<TextBox Name="_textBox" Grid.Row="2" Grid.Column="1" Text="{Binding Mode=OneWay, Path=Data.Value, ElementName=sveUC}" >
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="LostFocus">
 					<Command:EventToCommand 
@@ -30,6 +38,6 @@
 									CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
-		</TextBox>
+		</TextBox>-->
 	</Grid>
 </UserControl>
