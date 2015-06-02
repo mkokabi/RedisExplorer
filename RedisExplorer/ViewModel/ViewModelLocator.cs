@@ -42,7 +42,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 			////}
 
 			SimpleIoc.Default.Register<RedisExplorerViewModel>();
-			SimpleIoc.Default.Register<StringValueEditorViewModel>();
+			SimpleIoc.Default.Register<ValueEditorViewModel>();
 		}
 
 		public RedisExplorerViewModel Main
@@ -53,11 +53,11 @@ namespace DimensionData.RedisExplorer.ViewModel
 			}
 		}
 
-		public StringValueEditorViewModel StringValueEditorViewModel
+		public ValueEditorViewModel ValueEditorViewModel
 		{
 			get
 			{
-				return ServiceLocator.Current.GetInstance<StringValueEditorViewModel>();
+				return ServiceLocator.Current.GetInstance<ValueEditorViewModel>();
 			}
 		}
 		

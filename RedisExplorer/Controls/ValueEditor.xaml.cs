@@ -6,14 +6,14 @@ namespace DimensionData.RedisExplorer.Controls
 	using DimensionData.RedisExplorer.ViewModel;
 
 	/// <summary>
-	/// Interaction logic for StringValueEditor.xaml
+	/// Interaction logic for ValueEditor.xaml
 	/// </summary>
-	public partial class StringValueEditor : UserControl
+	public partial class ValueEditor : UserControl
 	{
-		public StringValueEditor()
+		public ValueEditor()
 		{
 			InitializeComponent();
-			this.DataContext = new ViewModelLocator().StringValueEditorViewModel;
+			this.DataContext = new ViewModelLocator().ValueEditorViewModel;
 		}
 	}
 }

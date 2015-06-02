@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace DimensionData.RedisExplorer.ViewModel
 {
-	public class StringValueEditorViewModel
+	public class ValueEditorViewModel
 		: INotifyPropertyChanged
 	{
 		RedisData data;
 
-		public StringValueEditorViewModel()
+		public ValueEditorViewModel()
 		{
 			data = new RedisData();
 		}

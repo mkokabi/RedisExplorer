@@ -45,7 +45,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 
 		ICommand gridDoubleClickCommand;
 
-		StringValueEditorViewModel selectedValueEditorViewModel;
+		ValueEditorViewModel selectedValueEditorViewModel;
 
 		#endregion
 
@@ -55,7 +55,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 			Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
-			selectedValueEditorViewModel = new ViewModelLocator().StringValueEditorViewModel;
+			selectedValueEditorViewModel = new ViewModelLocator().ValueEditorViewModel;
 		}
 
 		#region Commands
@@ -125,7 +125,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 			}
 		}
 
-		public StringValueEditorViewModel SelectedValueEditorViewModel
+		public ValueEditorViewModel SelectedValueEditorViewModel
 		{
 			get
 			{
