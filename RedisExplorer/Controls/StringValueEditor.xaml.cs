@@ -15,24 +15,5 @@ namespace DimensionData.RedisExplorer.Controls
 			InitializeComponent();
 			this.DataContext = new ViewModelLocator().StringValueEditorViewModel;
 		}
-
-		//public RedisData Data
-		//{
-		//	get
-		//	{
-		//		return (RedisData)this.GetValue(DataProperty);
-		//	}
-		//	set
-		//	{
-		//		SetValue(DataProperty, value);
-		//	}
-		//}
-
-		//public static readonly DependencyProperty DataProperty =
-		//	DependencyProperty.Register(
-		//	"Data",
-		//	typeof(RedisData),
-		//	typeof(StringValueEditor)
-		//);
 	}
 }

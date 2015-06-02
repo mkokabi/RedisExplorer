@@ -6,15 +6,29 @@
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			 xmlns:ViewModel="clr-namespace:DimensionData.RedisExplorer.ViewModel"
+			 xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300">
 	<Grid DockPanel.Dock="Top">
-		<!--<Grid.Resources>
-			<DataTemplate DataType="{x:Type ViewModel:StringValueEditorViewModel}">
-				<TextBox Text="{Binding Mode=OneWay, Path=Value, ElementName=sveUC}" />
+		<Grid.Resources>
+			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:StringValueEditorViewModel}">
+				<TextBox Text="{Binding Mode=OneWay, Path=Value}" Background="BurlyWood" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="LostFocus">
+							<Command:EventToCommand 
+									Command="{Binding Path=ValueChangedCommand}" 
+									CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</TextBox>
 			</DataTemplate>
-		</Grid.Resources>-->
+
+			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel:StringValueEditorViewModel}">
+				<TextBox Text="{Binding Mode=OneWay, Path=Values}" Background="CadetBlue" />
+			</DataTemplate>
+			
+		</Grid.Resources>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -26,18 +40,21 @@
 		</Grid.ColumnDefinitions>
 		<Label Grid.Row="0" Grid.Column="0">Edit</Label>
 		<Label Grid.Row="1" Grid.Column="0">Key</Label>
-		<!--<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key, ElementName=sveUC}" IsReadOnly="True"></TextBox>-->
 		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="True"></TextBox>
 		<Label Grid.Row="2" Grid.Column="0">Value</Label>
-		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}"></ContentControl>
-		<!--<TextBox Name="_textBox" Grid.Row="2" Grid.Column="1" Text="{Binding Mode=OneWay, Path=Data.Value, ElementName=sveUC}" >
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="LostFocus">
-					<Command:EventToCommand 
-									Command="{Binding Path=ValueChangedCommand}" 
-									CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
-		</TextBox>-->
+		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}">
+			<ContentControl.Style>
+				<Style TargetType="{x:Type ContentControl}">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.String}">
+								<Setter Property="ContentTemplate" Value="{StaticResource _stringDataTemplate}"></Setter>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.List}">
+							<Setter Property="ContentTemplate" Value="{StaticResource _listDataTemplate}"></Setter>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ContentControl.Style>
+		</ContentControl>
 	</Grid>
 </UserControl>
