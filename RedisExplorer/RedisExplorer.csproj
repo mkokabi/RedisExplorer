@@ -149,6 +149,7 @@
     <Compile Include="Controls\ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\RedisValueConverter.cs" />
     <Compile Include="DataTypes\RedisData.cs" />
     <Compile Include="DataTypes\RedisDataCollection.cs" />
     <Compile Include="Controls\MyControl.xaml.cs">

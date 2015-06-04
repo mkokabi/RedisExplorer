@@ -7,11 +7,15 @@
 			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			 xmlns:ViewModel="clr-namespace:DimensionData.RedisExplorer.ViewModel"
 			 xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
+			 xmlns:Converters="clr-namespace:DimensionData.RedisExplorer.Converters"
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300">
 	<Grid DockPanel.Dock="Top">
 		<Grid.Resources>
+
+			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
+			
 			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
 				<TextBox Text="{Binding Mode=OneWay, Path=Value}" Background="BurlyWood" >
 					<i:Interaction.Triggers>
@@ -25,7 +29,12 @@
 			</DataTemplate>
 
 			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
-				<TextBox Text="{Binding Mode=OneWay, Path=Values}" Background="CadetBlue" />
+				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Value" Binding="{Binding Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+					</DataGrid.Columns>
+				</DataGrid>
 			</DataTemplate>
 			
 		</Grid.Resources>
