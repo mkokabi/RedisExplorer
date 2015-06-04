@@ -60,8 +60,8 @@ namespace DimensionData.RedisExplorer
 			this.Value = value;
 		}
 
-		public RedisData(string key, RedisValue[] values)
-			: this(key, RedisType.List)
+		public RedisData(string key, RedisValue[] values, RedisType redisType = RedisType.List)
+			: this(key, redisType)
 		{
 			this.Values = values;
 		}
@@ -100,10 +100,10 @@ namespace DimensionData.RedisExplorer
 							return this.Value;
 						}
 					case RedisType.List:
+					case RedisType.Set:
 						{
 							return String.Join(",", this.Values.ToStringArray());
 						}
-					case RedisType.Set:
 					case RedisType.Hash:
 						{
 							return String.Join(",", this.Hash.Select(item => string.Format("{0}:{1}", item.Name, item.Value)).ToArray());

@@ -275,7 +275,7 @@ namespace DimensionData.RedisExplorer.ViewModel
 									}
 								case RedisType.Set:
 									{
-										KeyValueCollection.Add(new RedisData(key, redisDatabase.SetMembers(key)));
+										KeyValueCollection.Add(new RedisData(key, redisDatabase.SetMembers(key), RedisType.Set));
 										break;
 									}
 								case RedisType.SortedSet:
