@@ -16,7 +16,7 @@ using System.Reflection;
 using Microsoft.VsSDK.UnitTestLibrary;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DimensionData.RedisExplorer;
+using RedisExplorer;
 
 namespace RedisExplorer_UnitTests
 {
