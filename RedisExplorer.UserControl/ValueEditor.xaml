@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="RedisExplorer.Controls.ValueEditor"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+			 xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
+			 xmlns:ViewModel="clr-namespace:RedisExplorer.ViewModel"
+			 xmlns:Converters="clr-namespace:RedisExplorer.Converters"
+			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
+			 x:Name="sveUC"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="300" d:DesignWidth="300" >
+	<Grid DockPanel.Dock="Top">
+		<Grid.Resources>
+
+			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
+
+			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+				<TextBox Text="{Binding Mode=OneWay, Path=Value}" >
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="LostFocus">
+							<Command:EventToCommand
+								Command ="{Binding Path=ValueChangedCommand}"
+								CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</TextBox>
+			</DataTemplate>
+
+			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Value" Binding="{Binding Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</DataTemplate>
+
+			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Value" Binding="{Binding Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</DataTemplate>
+
+			<DataTemplate x:Key="_hashDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+						<DataGridTextColumn Header="Value" Binding="{Binding Path=Value, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</DataTemplate>
+
+			<DataTemplate x:Key="_sortedSetDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Element" Binding="{Binding Path=Element, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+						<DataGridTextColumn Header="Score" Binding="{Binding Path=Score}" ></DataGridTextColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</DataTemplate>
+			
+		</Grid.Resources>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="50"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Label Grid.Row="0" Grid.Column="0">Edit</Label>
+		<Label Grid.Row="1" Grid.Column="0">Key</Label>
+		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="True"></TextBox>
+		<Label Grid.Row="2" Grid.Column="0">Value</Label>
+		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}">
+			<ContentControl.Style>
+				<Style TargetType="{x:Type ContentControl}">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.String}">
+								<Setter Property="ContentTemplate" Value="{StaticResource _stringDataTemplate}"></Setter>
+						</DataTrigger>
+						
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.List}">
+							<Setter Property="ContentTemplate" Value="{StaticResource _listDataTemplate}"></Setter>
+						</DataTrigger>
+						
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.Set}">
+							<Setter Property="ContentTemplate" Value="{StaticResource _setDataTemplate}"></Setter>
+						</DataTrigger>
+						
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.Hash}">
+							<Setter Property="ContentTemplate" Value="{StaticResource _hashDataTemplate}"></Setter>
+						</DataTrigger>
+						
+						<DataTrigger Binding="{Binding Path=Data.Type}" Value="{x:Static Redis:RedisType.SortedSet}">
+							<Setter Property="ContentTemplate" Value="{StaticResource _sortedSetDataTemplate}"></Setter>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ContentControl.Style>
+		</ContentControl>
+	</Grid>
+</UserControl>

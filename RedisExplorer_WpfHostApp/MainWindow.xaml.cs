@@ -17,6 +17,8 @@ namespace RedisExplorer_WpfHostApp
 {
 	using DimensionData.RedisExplorer;
 
+	using RedisExplorer;
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -25,7 +27,8 @@ namespace RedisExplorer_WpfHostApp
 		public MainWindow()
 		{
 			InitializeComponent();
-			this.Content = new MyControl();
+			// this.Content = new MyControl();
+			this.Content = new Explorer();
 		}
 	}
 }
