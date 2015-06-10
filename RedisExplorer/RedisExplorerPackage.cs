@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 
-namespace DimensionData.RedisExplorer
+namespace RedisExplorer
 {
 	/// <summary>
 	/// This is the class that implements the package exposed by this assembly.
@@ -60,7 +60,7 @@ namespace DimensionData.RedisExplorer
 			ToolWindowPane window = this.FindToolWindow(typeof(MyToolWindow), 0, true);
 			if ((null == window) || (null == window.Frame))
 			{
-				throw new NotSupportedException(Resources.CanNotCreateWindow);
+				throw new NotSupportedException(ExplorerResources.CanNotCreateWindow);
 			}
 			IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
 			Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());

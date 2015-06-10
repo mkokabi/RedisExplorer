@@ -2,7 +2,7 @@
 // MUST match PkgCmdID.h
 using System;
 
-namespace DimensionData.RedisExplorer
+namespace RedisExplorer
 {
     static class PkgCmdIDList
     {

@@ -15,8 +15,6 @@ using System.Windows.Shapes;
 
 namespace RedisExplorer_WpfHostApp
 {
-	using DimensionData.RedisExplorer;
-
 	using RedisExplorer;
 
 	/// <summary>

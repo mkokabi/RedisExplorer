@@ -2,7 +2,7 @@
 // MUST match guids.h
 using System;
 
-namespace DimensionData.RedisExplorer
+namespace RedisExplorer
 {
     static class GuidList
     {

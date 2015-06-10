@@ -118,10 +118,6 @@
       <Project>{BFEBBD83-7C8E-479B-A3A6-1A11EC4E35CE}</Project>
       <Name>RedisExplorer.UserControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RedisExplorer\RedisExplorer.csproj">
-      <Project>{980C0209-3A6A-4F98-87A8-85CFAAF9105D}</Project>
-      <Name>RedisExplorer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
