@@ -1,7 +1,5 @@
 ﻿namespace RedisExplorer.Controls
 {
-	using RedisExplorer.ViewModel;
-
 	/// <summary>
 	/// Interaction logic for ValueEditor.xaml
 	/// </summary>
@@ -10,7 +8,6 @@
 		public ValueEditor()
 		{
 			InitializeComponent();
-			this.DataContext = new ViewModelLocator().ValueEditorViewModel;
 		}
 	}
 }

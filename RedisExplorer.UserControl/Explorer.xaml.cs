@@ -1,7 +1,5 @@
 ﻿namespace RedisExplorer
 {
-	using RedisExplorer.ViewModel;
-
 	/// <summary>
 	/// Interaction logic for UserControl1.xaml
 	/// </summary>
@@ -10,7 +8,6 @@
 		public Explorer()
 		{
 			InitializeComponent();
-			this.DataContext = new ViewModelLocator().Main;
 		}
 	}
 }

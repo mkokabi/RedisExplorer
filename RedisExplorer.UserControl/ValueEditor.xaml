@@ -11,9 +11,15 @@
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" >
-	<Grid DockPanel.Dock="Top">
+	
+	<UserControl.Resources>
+		<ViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+	</UserControl.Resources>
+	
+	<Grid DockPanel.Dock="Top"
+		  DataContext="{Binding Path=ValueEditorViewModel, Source={StaticResource Locator}}">
 		<Grid.Resources>
-
+			
 			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
 
 			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
@@ -67,6 +73,7 @@
 			</DataTemplate>
 			
 		</Grid.Resources>
+		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>

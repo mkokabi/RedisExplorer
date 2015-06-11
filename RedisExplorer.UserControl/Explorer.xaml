@@ -6,10 +6,16 @@
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			 xmlns:Controls="clr-namespace:RedisExplorer.Controls"
+			 xmlns:ViewModel="clr-namespace:RedisExplorer.ViewModel"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300" d:DesignWidth="300"
 			 Name="MyToolWindow">
-	<Grid>
+
+	<UserControl.Resources>
+		<ViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+	</UserControl.Resources>
+
+	<Grid DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 		<DockPanel LastChildFill="True">
 			<Grid DockPanel.Dock="Top">
 				<Grid.ColumnDefinitions>
