@@ -15,22 +15,22 @@
 	<UserControl.Resources>
 		<ViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
 	</UserControl.Resources>
-	
-	<Grid DockPanel.Dock="Top"
+
+	<Grid DockPanel.Dock="Top" Margin="5"
 		  DataContext="{Binding Path=ValueEditorViewModel, Source={StaticResource Locator}}">
 		<Grid.Resources>
 			
 			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
 
 			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
-				<TextBox Text="{Binding Mode=OneWay, Path=Value}" >
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="LostFocus">
+				<TextBox Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RedisValueConverter}}" >
+					<!--<i:Interaction.Triggers>
+						<i:EventTrigger EventName="TextChanged">
 							<Command:EventToCommand
 								Command ="{Binding Path=ValueChangedCommand}"
 								CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
 						</i:EventTrigger>
-					</i:Interaction.Triggers>
+					</i:Interaction.Triggers>-->
 				</TextBox>
 			</DataTemplate>
 
@@ -77,7 +77,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="75"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="50"></ColumnDefinition>

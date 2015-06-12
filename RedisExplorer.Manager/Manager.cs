@@ -19,8 +19,6 @@ namespace RedisExplorer
 		string redisUrl;
 
 		string[] databases;
-
-		IDatabase redisDatabase;
 		#endregion
 		
 		public void Connect(string redisUrl)
@@ -42,7 +40,7 @@ namespace RedisExplorer
 
 		public IReadOnlyCollection<RedisData> GetData(string database)
 		{
-			this.redisDatabase = redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			IDatabase redisDatabase = redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
 
 			IEnumerable<RedisKey> keys = redisServer.Keys(pageSize: 10, database: redisDatabase.Database);
 			RedisDataCollection KeyValueCollection = new RedisDataCollection();
@@ -85,6 +83,19 @@ namespace RedisExplorer
 					}
 				});
 			return KeyValueCollection;
+		}
+
+		public void Update(string database, RedisData data)
+		{
+			IDatabase redisDatabase = redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			switch (data.Type)
+			{
+				case RedisType.String:
+					{
+						redisDatabase.StringSet(data.Key, data.Text);
+						break;
+					}
+			}
 		}
 	}
 }

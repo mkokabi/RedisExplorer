@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RedisExplorer.Converters
 {
@@ -38,6 +34,10 @@ namespace RedisExplorer.Converters
 		/// <param name="value">The value that is produced by the binding target.</param><param name="targetType">The type to convert to.</param><param name="parameter">The converter parameter to use.</param><param name="culture">The culture to use in the converter.</param>
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			if (targetType == typeof(RedisValue))
+			{
+				return (RedisValue)(value.ToString());
+			}
 			throw new NotImplementedException();
 		}
 	}

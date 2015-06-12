@@ -11,5 +11,7 @@ namespace RedisExplorer
 		IReadOnlyCollection<string> GetDatabases();
 
 		IReadOnlyCollection<RedisData> GetData(string database);
+
+		void Update(string database, RedisData data);
 	}
 }

@@ -33,8 +33,6 @@ namespace RedisExplorer.ViewModel
 
 		ICommand cancelCommand;
 
-		ICommand valueChangedCommand;
-
 		ICommand rowChangedCommand;
 
 		ICommand gridDoubleClickCommand;
@@ -87,14 +85,6 @@ namespace RedisExplorer.ViewModel
 			get
 			{
 				return cancelCommand ?? (cancelCommand = new RelayCommand(Cancel));
-			}
-		}
-
-		public ICommand ValueChangedCommand
-		{
-			get
-			{
-				return valueChangedCommand ?? (valueChangedCommand = new RelayCommand<string>(ValueChanged));
 			}
 		}
 
@@ -253,26 +243,14 @@ namespace RedisExplorer.ViewModel
 		
 		public void Save()
 		{
-			MessageBox.Show("Save " + selectedItem.Key + " " + selectedItem.Value);
+			// MessageBox.Show("Save " + selectedItem.Key + " " + selectedItem.Value);
+			this.manager.Update(currentDatabase, selectedItem);
 			this.EditMode = false;
 		}
 
 		public void Cancel()
 		{
 			this.EditMode = false;
-		}
-
-		public void ValueChanged(string textChanged)
-		{
-			try
-			{
-				// MessageBox.Show("ValueChanged " + selectedItem.Key + " " + textChanged);
-				KeyValueCollection.FirstOrDefault(item => item.Key == selectedItem.Key).Value = textChanged;
-			}
-			catch (Exception)
-			{
-				MessageBox.Show("Can not write the value back to the Redis");
-			}
 		}
 
 		public void RowChanged(IList selectedCellsChangedEventArgs)
