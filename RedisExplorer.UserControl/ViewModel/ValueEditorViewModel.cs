@@ -1,9 +1,10 @@
-﻿namespace RedisExplorer.ViewModel
+﻿namespace RedisExplorer.UserControl.ViewModel
 {
 	using GalaSoft.MvvmLight;
 
-	using RedisExplorer.UserControl.ViewModel;
-
+	/// <summary>
+	/// The value editor view model.
+	/// </summary>
 	public class ValueEditorViewModel
 		: ViewModelBase
 	{
@@ -15,10 +16,9 @@
 
 		#endregion
 
-		public ValueEditorViewModel()
-		{
-		}
-
+		/// <summary>
+		/// The data.
+		/// </summary>
 		public DataViewModel Data
 		{
 			get
@@ -27,7 +27,7 @@
 			}
 			set
 			{
-				Set(() => Data, ref data, value);
+				this.Set(() => this.Data, ref this.data, value);
 			}
 		}
 	}

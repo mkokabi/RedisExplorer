@@ -1,12 +1,14 @@
-﻿using System;
-
-namespace RedisExplorer.Converters
+﻿namespace RedisExplorer.UserControl.Converters
 {
+	using System;
 	using System.Globalization;
 	using System.Windows.Data;
 
 	using StackExchange.Redis;
 
+	/// <summary>
+	/// The redis value converter.
+	/// </summary>
 	public class RedisValueConverter: IValueConverter
 	{
 		/// <summary>

@@ -10,14 +10,28 @@ namespace RedisExplorer.UserControl.ViewModel
 	using GalaSoft.MvvmLight;
 	using GalaSoft.MvvmLight.Command;
 
+	using RedisExplorer.Common.DataTypes;
 	using RedisExplorer.DataTypes;
 
 	using StackExchange.Redis;
 
+	/// <summary>
+	/// The view model of redis data.
+	/// </summary>
 	public class DataViewModel : ViewModelBase
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="DataViewModel"/> class.
+		/// </summary>
+		/// <param name="redisData">
+		/// The redis data.
+		/// </param>
 		public DataViewModel(RedisData redisData)
 		{
+			if (redisData == null)
+			{
+				throw new ArgumentNullException("redisData");
+			}
 			this.redisData = redisData;
 			this.Value = redisData.Value;
 			if (redisData.Values != null)
@@ -27,22 +41,24 @@ namespace RedisExplorer.UserControl.ViewModel
 		}
 
 		#region Private fields
-		ICommand rowChangedCommand;
+		readonly RedisData redisData;
 
-		RedisData redisData;
+		readonly ObservableCollection<string> values;
+
+		ICommand rowChangedCommand;
 
 		string selectedItem;
 
 		int selectedItemIndex;
 
-		readonly ObservableCollection<string> values;
-
-		ICommand valueChangedCommand;
-
 		bool ignoreUpdatingValue = true;
 		#endregion
 
 		#region Commands
+
+		/// <summary>
+		/// The row changed command.
+		/// </summary>
 		public ICommand RowChangedCommand
 		{
 			get
@@ -54,6 +70,9 @@ namespace RedisExplorer.UserControl.ViewModel
 
 		#region Public properties
 
+		/// <summary>
+		/// Accessor to internal redis data.
+		/// </summary>
 		public RedisData RedisData
 		{
 			get
@@ -62,6 +81,9 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// The selected item when the redis data is not a single value.
+		/// </summary>
 		public string SelectedItem
 		{
 			get
@@ -79,15 +101,24 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// The redis data key.
+		/// </summary>
 		public string Key
 		{
 			get
 			{
 				return redisData.Key;
 			}
-			set { }
+			// ReSharper disable once ValueParameterNotUsed
+			set
+			{
+			}
 		}
 
+		/// <summary>
+		/// The single value.
+		/// </summary>
 		public RedisValue Value
 		{
 			get
@@ -99,45 +130,55 @@ namespace RedisExplorer.UserControl.ViewModel
 				if (redisData.Value != value)
 				{
 					redisData.Value = value;
-					Broadcast<string>("", value, "Value");
+					Broadcast<string>(string.Empty, value, "Value");
 				}
 			}
 		}
 
+		/// <summary>
+		/// The list values.
+		/// </summary>
 		public ObservableCollection<string> Values
 		{
 			get
 			{
 				return values;
 			}
-			set { }
 		}
 
+		/// <summary>
+		/// The hash values.
+		/// </summary>
+		// TODO: Not completed
 		public HashEntry[] Hash
 		{
 			get
 			{
 				return redisData.Hash;
 			}
-			set { }
 		}
 
+		/// <summary>
+		/// The sorted set values.
+		/// </summary>
+		// TODO: Not completed
 		public IEnumerable<SortedSetEntry> SortedSet
 		{
 			get
 			{
 				return redisData.SortedSet;
 			}
-			set { }
 		}
 
+		/// <summary>
+		/// The redis data type
+		/// </summary>
 		public RedisType Type
 		{
 			get
 			{
 				return redisData.Type;
 			}
-			set { }
 		}
 		#endregion
 
@@ -152,6 +193,9 @@ namespace RedisExplorer.UserControl.ViewModel
 			return Text;
 		}
 
+		/// <summary>
+		/// Type based string presentation of the data
+		/// </summary>
 		public string Text
 		{
 			get
@@ -180,13 +224,24 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// For data type other than single value the row changed event handler of datagrid.
+		/// </summary>
+		/// <param name="selectionChangedEventArgs">
+		/// The selection changed event args.
+		/// </param>
 		public void RowChanged(SelectionChangedEventArgs selectionChangedEventArgs)
 		{
+			if (selectionChangedEventArgs == null)
+			{
+				throw new ArgumentNullException("selectionChangedEventArgs");
+			}
 			if (selectionChangedEventArgs.AddedItems.Count == 0)
 			{
 				return;
 			}
 			this.selectedItemIndex = (selectionChangedEventArgs.Source as DataGrid).SelectedIndex;
+			// TODO: Find a better way of avoiding falling in a loop while updating the Selected Item
 			ignoreUpdatingValue = true;
 			try
 			{

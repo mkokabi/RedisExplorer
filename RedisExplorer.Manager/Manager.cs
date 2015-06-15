@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-
-namespace RedisExplorer
+﻿namespace RedisExplorer.Manager
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Net;
+
+	using RedisExplorer.Common;
+	using RedisExplorer.Common.DataTypes;
 	using RedisExplorer.DataTypes;
 
 	using StackExchange.Redis;
-	
+
+	/// <summary>
+	/// RedisExplorer manager.
+	/// </summary>
 	public class Manager : IManager
 	{
 		#region private fields
@@ -20,29 +25,61 @@ namespace RedisExplorer
 
 		string[] databases;
 		#endregion
-		
-		public void Connect(string redisUrl)
+
+		/// <summary>
+		/// Connect to the redis server.
+		/// </summary>
+		/// <param name="url">
+		/// Redis server url.
+		/// </param>
+		public void Connect(string url)
 		{
-			this.redisUrl = redisUrl;
-			redisConnection = ConnectionMultiplexer.Connect(this.redisUrl + ",allowAdmin=true");
-			EndPoint[] endpoints = redisConnection.GetEndPoints();
-			redisServer = redisConnection.GetServer(endpoints[0]);
-			IGrouping<string, KeyValuePair<string, string>>[] infos = redisServer.Info();
+			if (url == null)
+			{
+				throw new ArgumentNullException("url");
+			}
+			this.redisUrl = url;
+			this.redisConnection = ConnectionMultiplexer.Connect(this.redisUrl + ",allowAdmin=true");
+			EndPoint[] endpoints = this.redisConnection.GetEndPoints();
+			this.redisServer = this.redisConnection.GetServer(endpoints[0]);
+			IGrouping<string, KeyValuePair<string, string>>[] infos = this.redisServer.Info();
 			var keyspace = infos.FirstOrDefault(info => info.Key == "Keyspace");
-			var dbsKeyspaceInfo = keyspace.Where(info => info.Key.StartsWith("db"));
-			databases = dbsKeyspaceInfo.Select(db => db.Key).ToArray();
+			if (keyspace != null)
+			{
+				var dbsKeyspaceInfo = keyspace.Where(info => info.Key.StartsWith("db"));
+				this.databases = dbsKeyspaceInfo.Select(db => db.Key).ToArray();
+			}
 		}
 
+		/// <summary>
+		/// Return the databases name.
+		/// </summary>
+		/// <returns>
+		/// The <see cref="IReadOnlyCollection"/>.
+		/// </returns>
 		public IReadOnlyCollection<string> GetDatabases()
 		{
-			return databases.ToList().AsReadOnly();
+			return this.databases.ToList().AsReadOnly();
 		}
 
+		/// <summary>
+		/// Get the data from the database.
+		/// </summary>
+		/// <param name="database">
+		/// database name.
+		/// </param>
+		/// <returns>
+		/// The <see cref="IReadOnlyCollection"/>.
+		/// </returns>
 		public IReadOnlyCollection<RedisData> GetData(string database)
 		{
-			IDatabase redisDatabase = redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			if (database == null)
+			{
+				throw new ArgumentNullException("database");
+			}
+			IDatabase redisDatabase = this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
 
-			IEnumerable<RedisKey> keys = redisServer.Keys(pageSize: 10, database: redisDatabase.Database);
+			IEnumerable<RedisKey> keys = this.redisServer.Keys(pageSize: 10, database: redisDatabase.Database);
 			RedisDataCollection KeyValueCollection = new RedisDataCollection();
 			keys.ToList().ForEach(key =>
 				{
@@ -85,9 +122,27 @@ namespace RedisExplorer
 			return KeyValueCollection;
 		}
 
+		/// <summary>
+		/// Update database values.
+		/// </summary>
+		/// <param name="database">
+		/// Database name.
+		/// </param>
+		/// <param name="data">
+		/// Redis data.
+		/// </param>
+		// TODO: Not completed
 		public void Update(string database, RedisData data)
 		{
-			IDatabase redisDatabase = redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			if (database == null)
+			{
+				throw new ArgumentNullException("database");
+			}
+			if (data == null)
+			{
+				throw new ArgumentNullException("data");
+			}
+			IDatabase redisDatabase = this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
 			switch (data.Type)
 			{
 				case RedisType.String:

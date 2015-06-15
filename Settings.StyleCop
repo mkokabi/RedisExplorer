@@ -63,6 +63,7 @@
 			<Value>provisionable</Value>
 			<Value>queryable</Value>
 			<Value>queryables</Value>
+			<Value>redis</Value>
 			<Value>resharper</Value>
 			<Value>resharper's</Value>
 			<Value>reprovision</Value>
@@ -98,6 +99,7 @@
 			<Value>wctx</Value>
 			<Value>wixobj</Value>
 			<Value>wix</Value>
+			<Value>xaml</Value>
 			<Value>xmlns</Value>
 		</CollectionProperty>
 	</GlobalSettings>
@@ -222,7 +224,9 @@
 					</RuleSettings>
 				</Rule>
 			</Rules>
-			<AnalyzerSettings />
+			  <AnalyzerSettings>
+				<BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+			  </AnalyzerSettings>
 		</Analyzer>
 		<Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
 			<Rules>

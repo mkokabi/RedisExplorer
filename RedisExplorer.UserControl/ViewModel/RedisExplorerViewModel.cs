@@ -5,17 +5,17 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-
-namespace RedisExplorer.ViewModel
+namespace RedisExplorer.UserControl.ViewModel
 {
 	using GalaSoft.MvvmLight;
 	using GalaSoft.MvvmLight.Command;
 
-	using RedisExplorer.DataTypes;
-	using RedisExplorer.UserControl.ViewModel;
+	using RedisExplorer.Common;
+	using RedisExplorer.ViewModel;
 
-	using MessageBox = System.Windows.MessageBox;
-
+	/// <summary>
+	/// Redis explorer view model.
+	/// </summary>
 	public class RedisExplorerViewModel
 		: ViewModelBase
 	{
@@ -44,19 +44,29 @@ namespace RedisExplorer.ViewModel
 		
 		#endregion
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RedisExplorerViewModel"/> class.
+		/// </summary>
+		/// <param name="manager">
+		/// The manager.
+		/// </param>
 		public RedisExplorerViewModel(IManager manager)
 		{
-			KeyValueCollection = new ObservableCollection<DataViewModel>();
-			Databases  = new ObservableCollection<string>();
+			if (manager == null)
+			{
+				throw new ArgumentNullException("manager");
+			}
+			this.KeyValueCollection = new ObservableCollection<DataViewModel>();
+			this.Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
-			selectedValueEditorViewModel = new ViewModelLocator().ValueEditorViewModel;
+			this.selectedValueEditorViewModel = new ViewModelLocator().ValueEditorViewModel;
 			this.manager = manager;
 			this.PropertyChanged += (sender, args) =>
 			{
 				if (args.PropertyName == "CurrentDatabase")
 				{
-					if (Databases.Any())
+					if (this.Databases.Any())
 					{
 						this.SwitchDatabase(this.currentDatabase);
 					}
@@ -65,78 +75,107 @@ namespace RedisExplorer.ViewModel
 		}
 
 		#region Commands
+
+		/// <summary>
+		/// The connect command called by clicking on Connect button.
+		/// </summary>
 		public ICommand ConnectCommand
 		{
 			get
 			{
-				return connectCommand ?? (connectCommand = new RelayCommand(Connect));
+				return this.connectCommand ?? (this.connectCommand = new RelayCommand(this.Connect));
 			}
 		}
 
+		/// <summary>
+		/// The Save command called by clicking on Save button on the toolbar while in edit mode.
+		/// </summary>
 		public ICommand SaveCommand
 		{
 			get
 			{
-				return saveCommand ?? (saveCommand = new RelayCommand(Save));
+				return this.saveCommand ?? (this.saveCommand = new RelayCommand(this.Save));
 			}
 		}
 
+		/// <summary>
+		/// The Cancel command called by clicking on Save button on the toolbar while in edit mode.
+		/// </summary>
 		public ICommand CancelCommand
 		{
 			get
 			{
-				return cancelCommand ?? (cancelCommand = new RelayCommand(Cancel));
+				return this.cancelCommand ?? (this.cancelCommand = new RelayCommand(this.Cancel));
 			}
 		}
 
+		/// <summary>
+		/// The row changed command while changing the selected row on the current database data grid.
+		/// </summary>
 		public ICommand RowChangedCommand
 		{
 			get
 			{
-				return rowChangedCommand ?? (rowChangedCommand = new RelayCommand<IList>(RowChanged));
+				return this.rowChangedCommand ?? (this.rowChangedCommand = new RelayCommand<IList>(this.RowChanged));
 			}
 		}
 
+		/// <summary>
+		/// The double click command on the the current database data grid.
+		/// </summary>
 		public ICommand GridDoubleClickCommand
 		{
 			get
 			{
-				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<DataViewModel>(SwitchToEditMode));
+				return this.gridDoubleClickCommand ?? (this.gridDoubleClickCommand = new RelayCommand<DataViewModel>(this.SwitchToEditMode));
 			}
 		} 
 		#endregion
 
 		#region Public properties
+
+		/// <summary>
+		/// The selected item in the current database data grid.
+		/// </summary>
 		public DataViewModel SelectedItem
 		{
 			get
 			{
-				return selectedItem;
+				return this.selectedItem;
 			}
 			set
 			{
-				Set(() => SelectedItem, ref selectedItem, value);
+				this.Set(() => this.SelectedItem, ref this.selectedItem, value);
 			}
 		}
 
+		/// <summary>
+		/// The view model of selected value in current database.
+		/// </summary>
 		public ValueEditorViewModel SelectedValueEditorViewModel
 		{
 			get
 			{
-				return selectedValueEditorViewModel;
+				return this.selectedValueEditorViewModel;
 			}
 			set
 			{
-				Set(() => SelectedValueEditorViewModel, ref selectedValueEditorViewModel, value);
+				this.Set(() => this.SelectedValueEditorViewModel, ref this.selectedValueEditorViewModel, value);
 			}
 		}
 
+		/// <summary>
+		/// The list of databases on this Redis server.
+		/// </summary>
 		public ObservableCollection<string> Databases
 		{
 			get;
 			set;
 		}
 
+		/// <summary>
+		/// The current database on this Redis server.
+		/// </summary>
 		public string CurrentDatabase
 		{
 			get
@@ -145,11 +184,11 @@ namespace RedisExplorer.ViewModel
 			}
 			set
 			{
-				Set(() => CurrentDatabase, ref currentDatabase, value);
+				this.Set(() => this.CurrentDatabase, ref this.currentDatabase, value);
 			}
 		}
 		/// <summary>
-		/// Gets or sets the key value collection.
+		/// The key value collection of data.
 		/// </summary>
 		public ObservableCollection<DataViewModel> KeyValueCollection
 		{
@@ -157,6 +196,9 @@ namespace RedisExplorer.ViewModel
 			set;
 		}
 
+		/// <summary>
+		/// Redis url.
+		/// </summary>
 		public string RedisUrl
 		{
 			get
@@ -165,10 +207,13 @@ namespace RedisExplorer.ViewModel
 			}
 			set
 			{
-				Set(() => RedisUrl, ref redisUrl, value);
+				this.Set(() => this.RedisUrl, ref this.redisUrl, value);
 			}
 		}
 
+		/// <summary>
+		/// A flag indicating whether the explorer is in edit mode.
+		/// </summary>
 		public bool EditMode
 		{
 			get
@@ -180,21 +225,27 @@ namespace RedisExplorer.ViewModel
 				if (value != this.editMode)
 				{
 					this.editMode = value;
-					this.RaisePropertyChanged(() => EditMode);
-					this.RaisePropertyChanged(() => BrowseMode);
-					this.RaisePropertyChanged(() => EditPanelVisibility);
+					this.RaisePropertyChanged(() => this.EditMode);
+					this.RaisePropertyChanged(() => this.BrowseMode);
+					this.RaisePropertyChanged(() => this.EditPanelVisibility);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Return the edit panel visibility.
+		/// </summary>
 		public Visibility EditPanelVisibility
 		{
 			get
 			{
-				return editMode ? Visibility.Visible : Visibility.Collapsed;
+				return this.editMode ? Visibility.Visible : Visibility.Collapsed;
 			}
 		}
 
+		/// <summary>
+		/// Returns a flag indicating whether explorer is in browse mode.
+		/// </summary>
 		public bool BrowseMode
 		{
 			get
@@ -204,15 +255,18 @@ namespace RedisExplorer.ViewModel
 		} 
 		#endregion
 
+		/// <summary>
+		/// Connect to the redis server on the Url.
+		/// </summary>
 		public void Connect()
 		{
 			try
 			{
-				manager.Connect(this.RedisUrl);
-				Databases.Clear();
-				manager.GetDatabases().ToList().ForEach(dbName => Databases.Add(dbName));
+				this.manager.Connect(this.RedisUrl);
+				this.Databases.Clear();
+				this.manager.GetDatabases().ToList().ForEach(dbName => this.Databases.Add(dbName));
 				
-				this.CurrentDatabase = Databases[0];
+				this.CurrentDatabase = this.Databases[0];
 			}
 			catch (Exception ex)
 			{
@@ -220,13 +274,19 @@ namespace RedisExplorer.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Switch database.
+		/// </summary>
+		/// <param name="redisDatabase">
+		/// The redis database name.
+		/// </param>
 		public void SwitchDatabase(string redisDatabase)
 		{
 			try
 			{
-				KeyValueCollection.Clear();
-				manager.GetData(redisDatabase).ToList().ForEach(data => KeyValueCollection.Add(new DataViewModel(data)));
-				SelectedItem = this.KeyValueCollection.FirstOrDefault();
+				this.KeyValueCollection.Clear();
+				this.manager.GetData(redisDatabase).ToList().ForEach(data => this.KeyValueCollection.Add(new DataViewModel(data)));
+				this.SelectedItem = this.KeyValueCollection.FirstOrDefault();
 			}
 			catch (Exception ex)
 			{
@@ -235,23 +295,41 @@ namespace RedisExplorer.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// Switch from browse to edit mode.
+		/// </summary>
+		/// <param name="redisData">
+		/// The redis data.
+		/// </param>
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
 		}
-		
+
+		/// <summary>
+		/// The actual save method behind save command.
+		/// </summary>
 		public void Save()
 		{
-			this.manager.Update(currentDatabase, selectedItem.RedisData);
+			this.manager.Update(this.currentDatabase, this.selectedItem.RedisData);
 			this.EditMode = false;
 		}
 
+		/// <summary>
+		/// The actual cancel method behind cancel command.
+		/// </summary>
 		public void Cancel()
 		{
 			this.EditMode = false;
 		}
 
+		/// <summary>
+		/// The actual row changed method.
+		/// </summary>
+		/// <param name="selectedCellsChangedEventArgs">
+		/// The selected cells changed event args.
+		/// </param>
 		public void RowChanged(IList selectedCellsChangedEventArgs)
 		{
 			if (selectedCellsChangedEventArgs.Count == 0)

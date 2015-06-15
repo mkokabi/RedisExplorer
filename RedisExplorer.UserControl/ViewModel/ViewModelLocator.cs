@@ -21,6 +21,10 @@ namespace RedisExplorer.ViewModel
 
 	using Microsoft.Practices.ServiceLocation;
 
+	using RedisExplorer.Common;
+	using RedisExplorer.Manager;
+	using RedisExplorer.UserControl.ViewModel;
+
 	/// <summary>
 	/// This class contains static references to all the view models in the
 	/// application and provides an entry point for the bindings.
@@ -34,14 +38,14 @@ namespace RedisExplorer.ViewModel
 		/// </summary>
 		public ViewModelLocator()
 		{
-			//var builder = new ContainerBuilder();
-
-			//builder.RegisterType<Manager>().As<IManager>();
-			//builder.RegisterType<RedisExplorerViewModel>();
-			//builder.RegisterType<ValueEditorViewModel>();
-
-			//var container = builder.Build();
-			//ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));
+			// var builder = new ContainerBuilder();
+			   
+			// builder.RegisterType<Manager>().As<IManager>();
+			// builder.RegisterType<RedisExplorerViewModel>();
+			// builder.RegisterType<ValueEditorViewModel>();
+			   
+			// var container = builder.Build();
+			// ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));
 			
 			// -------------------------------
 

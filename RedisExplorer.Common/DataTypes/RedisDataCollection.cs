@@ -3,6 +3,8 @@
 	using System.Collections.ObjectModel;
 	using System.ComponentModel;
 
+	using RedisExplorer.Common.DataTypes;
+
 	public class RedisDataCollection : ObservableCollection<RedisData>, IEditableObject
 	{
 		/// <summary>

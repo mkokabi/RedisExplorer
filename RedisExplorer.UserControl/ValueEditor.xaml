@@ -6,8 +6,9 @@
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
 			 xmlns:ViewModel="clr-namespace:RedisExplorer.ViewModel"
-			 xmlns:Converters="clr-namespace:RedisExplorer.Converters"
-			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
+			xmlns:Command="http://www.galasoft.ch/mvvmlight"
+			 xmlns:ViewModel1="clr-namespace:RedisExplorer.UserControl.ViewModel"
+			 xmlns:Converters="clr-namespace:RedisExplorer.UserControl.Converters"
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" >
@@ -22,12 +23,12 @@
 			
 			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
 
-			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<TextBox Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RedisValueConverter}}" 
 						 TextWrapping="Wrap" AcceptsReturn="True" />
 			</DataTemplate>
 
-			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="75"></RowDefinition>
@@ -59,7 +60,7 @@
 				</Grid>
 			</DataTemplate>
 
-			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
 					<DataGrid.Columns>
@@ -68,7 +69,7 @@
 				</DataGrid>
 			</DataTemplate>
 
-			<DataTemplate x:Key="_hashDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+			<DataTemplate x:Key="_hashDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
 					<DataGrid.Columns>
@@ -78,7 +79,7 @@
 				</DataGrid>
 			</DataTemplate>
 
-			<DataTemplate x:Key="_sortedSetDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
+			<DataTemplate x:Key="_sortedSetDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
 					<DataGrid.Columns>
