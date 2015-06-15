@@ -12,6 +12,7 @@ namespace RedisExplorer.ViewModel
 	using GalaSoft.MvvmLight.Command;
 
 	using RedisExplorer.DataTypes;
+	using RedisExplorer.UserControl.ViewModel;
 
 	using MessageBox = System.Windows.MessageBox;
 
@@ -25,7 +26,7 @@ namespace RedisExplorer.ViewModel
 
 		bool editMode;
 
-		RedisData selectedItem;
+		DataViewModel selectedItem;
 
 		ICommand connectCommand;
 
@@ -45,7 +46,7 @@ namespace RedisExplorer.ViewModel
 
 		public RedisExplorerViewModel(IManager manager)
 		{
-			KeyValueCollection = new RedisDataCollection();
+			KeyValueCollection = new ObservableCollection<DataViewModel>();
 			Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
@@ -100,13 +101,13 @@ namespace RedisExplorer.ViewModel
 		{
 			get
 			{
-				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<RedisData>(SwitchToEditMode));
+				return gridDoubleClickCommand ?? (gridDoubleClickCommand = new RelayCommand<DataViewModel>(SwitchToEditMode));
 			}
 		} 
 		#endregion
 
 		#region Public properties
-		public RedisData SelectedItem
+		public DataViewModel SelectedItem
 		{
 			get
 			{
@@ -150,7 +151,7 @@ namespace RedisExplorer.ViewModel
 		/// <summary>
 		/// Gets or sets the key value collection.
 		/// </summary>
-		public RedisDataCollection KeyValueCollection
+		public ObservableCollection<DataViewModel> KeyValueCollection
 		{
 			get;
 			set;
@@ -224,8 +225,8 @@ namespace RedisExplorer.ViewModel
 			try
 			{
 				KeyValueCollection.Clear();
-				manager.GetData(redisDatabase).ToList().ForEach(KeyValueCollection.Add);
-				SelectedItem = KeyValueCollection.FirstOrDefault();
+				manager.GetData(redisDatabase).ToList().ForEach(data => KeyValueCollection.Add(new DataViewModel(data)));
+				SelectedItem = this.KeyValueCollection.FirstOrDefault();
 			}
 			catch (Exception ex)
 			{
@@ -234,17 +235,15 @@ namespace RedisExplorer.ViewModel
 			}
 		}
 
-		public void SwitchToEditMode(RedisData redisData)
+		public void SwitchToEditMode(DataViewModel redisData)
 		{
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
-			// MessageBox.Show("SwitchToEditMode " + redisData.Key + " " + redisData.Value);
 		}
 		
 		public void Save()
 		{
-			// MessageBox.Show("Save " + selectedItem.Key + " " + selectedItem.Value);
-			this.manager.Update(currentDatabase, selectedItem);
+			this.manager.Update(currentDatabase, selectedItem.RedisData);
 			this.EditMode = false;
 		}
 
@@ -259,7 +258,7 @@ namespace RedisExplorer.ViewModel
 			{
 				return;
 			}
-			this.SelectedItem = (RedisData)selectedCellsChangedEventArgs[0];
+			this.SelectedItem = (DataViewModel)selectedCellsChangedEventArgs[0];
 		}
 	}
 }

@@ -77,44 +77,5 @@ namespace RedisExplorer.DataTypes
 		{
 			this.SortedSet = sortedSet;
 		}
-
-		/// <summary>
-		/// Returns a string that represents the current object.
-		/// </summary>
-		/// <returns>
-		/// A string that represents the current object.
-		/// </returns>
-		public override string ToString()
-		{
-			return Text;
-		}
-
-		public string Text
-		{
-			get
-			{
-				switch (Type)
-				{
-					case RedisType.String:
-						{
-							return this.Value;
-						}
-					case RedisType.List:
-					case RedisType.Set:
-						{
-							return String.Join(",", this.Values.ToStringArray());
-						}
-					case RedisType.Hash:
-						{
-							return String.Join(",", this.Hash.Select(item => string.Format("{0}:{1}", item.Name, item.Value)).ToArray());
-						}
-					case RedisType.SortedSet:
-						{
-							return String.Join(",", this.SortedSet.Select(item => string.Format("{0}:{1}", item.Element, item.Score)).ToArray());
-						}
-				}
-				return base.ToString();
-			}
-		}
 	}
 }

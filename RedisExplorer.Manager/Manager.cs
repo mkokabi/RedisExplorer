@@ -92,7 +92,14 @@ namespace RedisExplorer
 			{
 				case RedisType.String:
 					{
-						redisDatabase.StringSet(data.Key, data.Text);
+						redisDatabase.StringSet(data.Key, data.Value);
+						break;
+					}
+				case RedisType.List:
+					{
+						var list = redisDatabase.ListRange(data.Key);
+						int index = 0;
+						list.ToList().ForEach(value => redisDatabase.ListSetByIndex(data.Key, index, data.Values[index++]));
 						break;
 					}
 			}

@@ -23,24 +23,40 @@
 			<Converters:RedisValueConverter x:Key="RedisValueConverter" />
 
 			<DataTemplate x:Key="_stringDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
-				<TextBox Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RedisValueConverter}}" >
-					<!--<i:Interaction.Triggers>
-						<i:EventTrigger EventName="TextChanged">
-							<Command:EventToCommand
-								Command ="{Binding Path=ValueChangedCommand}"
-								CommandParameter="{Binding Text, ElementName=_textBox}"></Command:EventToCommand>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>-->
-				</TextBox>
+				<TextBox Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource RedisValueConverter}}" 
+						 TextWrapping="Wrap" AcceptsReturn="True" />
 			</DataTemplate>
 
 			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
-				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Value" Binding="{Binding Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="75"></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					
+					<DataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Value" Binding="{Binding}" ></DataGridTextColumn>
+						</DataGrid.Columns>
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="SelectionChanged">
+								<Command:EventToCommand
+								Command="{Binding Path=DataContext.RowChangedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+									PassEventArgsToCommand="True" />
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</DataGrid>
+					<StackPanel Grid.Column="1" Margin="5" >
+						<TextBlock>Value</TextBlock>
+						<TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="Auto" 
+								 VerticalScrollBarVisibility="Auto"
+								 Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedItem}" Name="_textBox" />
+					</StackPanel>
+				</Grid>
 			</DataTemplate>
 
 			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel:ValueEditorViewModel}">
