@@ -5,6 +5,9 @@
 
 	using RedisExplorer.Common.DataTypes;
 
+	/// <summary>
+	/// Redis data collection.
+	/// </summary>
 	public class RedisDataCollection : ObservableCollection<RedisData>, IEditableObject
 	{
 		/// <summary>

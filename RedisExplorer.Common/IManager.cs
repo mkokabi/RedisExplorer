@@ -1,9 +1,8 @@
-﻿namespace RedisExplorer.Common
-{
-	using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace RedisExplorer.Common
+{
 	using RedisExplorer.Common.DataTypes;
-	using RedisExplorer.DataTypes;
 
 	/// <summary>
 	/// The Manager interface.

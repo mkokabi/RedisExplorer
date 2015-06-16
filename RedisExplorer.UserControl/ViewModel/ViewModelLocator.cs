@@ -14,8 +14,9 @@
 
 namespace RedisExplorer.ViewModel
 {
-	using Autofac;
-	using Autofac.Extras.CommonServiceLocator;
+	// TODO: Use Autofac
+	// using Autofac;
+	// using Autofac.Extras.CommonServiceLocator;
 
 	using GalaSoft.MvvmLight.Ioc;
 
@@ -55,6 +56,9 @@ namespace RedisExplorer.ViewModel
 			SimpleIoc.Default.Register<ValueEditorViewModel>();
 		}
 
+		/// <summary>
+		/// The accessor to main explorer view model
+		/// </summary>
 		public RedisExplorerViewModel Main
 		{
 			get
@@ -63,6 +67,9 @@ namespace RedisExplorer.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// The accessor to value editor view model
+		/// </summary>
 		public ValueEditorViewModel ValueEditorViewModel
 		{
 			get
@@ -71,6 +78,9 @@ namespace RedisExplorer.ViewModel
 			}
 		}
 		
+		/// <summary>
+		/// Clean up the view model
+		/// </summary>
 		public static void Cleanup()
 		{
 			// TODO Clear the ViewModels

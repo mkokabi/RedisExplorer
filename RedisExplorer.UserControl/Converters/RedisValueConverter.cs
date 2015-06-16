@@ -9,7 +9,7 @@
 	/// <summary>
 	/// The redis value converter.
 	/// </summary>
-	public class RedisValueConverter: IValueConverter
+	public class RedisValueConverter : IValueConverter
 	{
 		/// <summary>
 		/// Converts a value. 
