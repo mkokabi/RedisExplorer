@@ -11,7 +11,6 @@ namespace RedisExplorer.UserControl.ViewModel
 	using GalaSoft.MvvmLight.Command;
 
 	using RedisExplorer.Common.DataTypes;
-	using RedisExplorer.DataTypes;
 
 	using StackExchange.Redis;
 
@@ -38,6 +37,16 @@ namespace RedisExplorer.UserControl.ViewModel
 			{
 				this.values = new ObservableCollection<string>(redisData.Values.ToStringArray());
 			}
+			if (redisData.Hash != null)
+			{
+				this.hash = new ObservableCollection<HashEntryViewModel>(
+						redisData.Hash.Select(hashEntry => new HashEntryViewModel
+						{
+							Name = hashEntry.Name, Value = hashEntry.Value
+						}
+					)
+				);
+			}
 		}
 
 		#region Private fields
@@ -45,6 +54,8 @@ namespace RedisExplorer.UserControl.ViewModel
 
 		readonly ObservableCollection<string> values;
 
+		readonly ObservableCollection<HashEntryViewModel> hash;
+			
 		ICommand rowChangedCommand;
 
 		string selectedItem;
@@ -52,6 +63,9 @@ namespace RedisExplorer.UserControl.ViewModel
 		int selectedItemIndex;
 
 		bool ignoreUpdatingValue = true;
+
+		HashEntryViewModel selectedHashEntry;
+
 		#endregion
 
 		#region Commands
@@ -97,6 +111,26 @@ namespace RedisExplorer.UserControl.ViewModel
 				{
 					this.Values[this.selectedItemIndex] = value;
 					this.redisData.Values[this.selectedItemIndex] = value;
+				}
+			}
+		}
+
+		/// <summary>
+		/// The selected hash entry when the redis data is a hash.
+		/// </summary>
+		public HashEntryViewModel SelectedHashEntry
+		{
+			get
+			{
+				return this.selectedHashEntry;
+			}
+			set
+			{
+				Set(() => SelectedHashEntry, ref selectedHashEntry, value);
+				if (!ignoreUpdatingValue)
+				{
+					this.Hash[this.selectedItemIndex] = value;
+					this.redisData.Hash[this.selectedItemIndex] = value;
 				}
 			}
 		}
@@ -149,12 +183,11 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// <summary>
 		/// The hash values.
 		/// </summary>
-		// TODO: Not completed
-		public HashEntry[] Hash
+		public ObservableCollection<HashEntryViewModel> Hash
 		{
 			get
 			{
-				return redisData.Hash;
+				return hash;
 			}
 		}
 
@@ -245,7 +278,14 @@ namespace RedisExplorer.UserControl.ViewModel
 			ignoreUpdatingValue = true;
 			try
 			{
-				this.SelectedItem = Values[selectedItemIndex];
+				if (this.Type == RedisType.Hash)
+				{
+					this.SelectedHashEntry = Hash[selectedItemIndex];
+				}
+				else
+				{
+					this.SelectedItem = Values[selectedItemIndex];
+				}
 			}
 			finally
 			{

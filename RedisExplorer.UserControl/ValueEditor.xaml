@@ -35,7 +35,7 @@
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 					
 					<DataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
@@ -61,27 +61,74 @@
 			</DataTemplate>
 
 			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
-				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Value" Binding="{Binding Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="75"></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<DataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+						  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Value" Binding="{Binding}" ></DataGridTextColumn>
+						</DataGrid.Columns>
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="SelectionChanged">
+								<Command:EventToCommand
+								Command="{Binding Path=DataContext.RowChangedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+									PassEventArgsToCommand="True" />
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</DataGrid>
+					<StackPanel Grid.Column="1" Margin="5">
+						<TextBlock>Value</TextBlock>
+						<TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="Auto" 
+								 VerticalScrollBarVisibility="Auto"
+								 Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedItem}" Name="_textBox" />
+					</StackPanel>
+				</Grid>
 			</DataTemplate>
 
 			<DataTemplate x:Key="_hashDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
-				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
-						<DataGridTextColumn Header="Value" Binding="{Binding Path=Value, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="25"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="75"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<DataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
+							  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" ></DataGridTextColumn>
+							<DataGridTextColumn Header="Value" Binding="{Binding Path=Value}" ></DataGridTextColumn>
+						</DataGrid.Columns>
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="SelectionChanged">
+								<Command:EventToCommand
+								Command="{Binding Path=DataContext.RowChangedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+									PassEventArgsToCommand="True" />
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</DataGrid>
+					<TextBlock Grid.Row="0" Grid.Column="1">Name</TextBlock>
+					<TextBox Grid.Row="0" Grid.Column="2"
+								Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedHashEntry.Name}" />
+					<TextBlock Grid.Row="1" Grid.Column="1">Value</TextBlock>
+					<TextBox Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" AcceptsReturn="True"
+								VerticalScrollBarVisibility="Auto"
+								Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedHashEntry.Value}" />
+				</Grid>
 			</DataTemplate>
 
 			<DataTemplate x:Key="_sortedSetDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Element" Binding="{Binding Path=Element, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
 						<DataGridTextColumn Header="Score" Binding="{Binding Path=Score}" ></DataGridTextColumn>
@@ -93,7 +140,7 @@
 		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="25"></RowDefinition>
 			<RowDefinition Height="75"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>

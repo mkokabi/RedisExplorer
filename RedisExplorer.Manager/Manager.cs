@@ -1,10 +1,11 @@
-﻿namespace RedisExplorer.Manager
-{
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
+// ReSharper disable CSharpWarnings::CS1584
+namespace RedisExplorer.Manager
+{
 	using RedisExplorer.Common;
 	using RedisExplorer.Common.DataTypes;
 	using RedisExplorer.DataTypes;
@@ -160,4 +161,5 @@
 			}
 		}
 	}
+	// ReSharper restore CSharpWarnings::CS1584
 }

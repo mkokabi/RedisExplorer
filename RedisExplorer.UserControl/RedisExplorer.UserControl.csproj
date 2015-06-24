@@ -77,6 +77,7 @@
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\DataViewModel.cs" />
+    <Compile Include="ViewModel\HashEntryViewModel.cs" />
     <Compile Include="ViewModel\RedisExplorerViewModel.cs" />
     <Compile Include="ViewModel\ValueEditorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
