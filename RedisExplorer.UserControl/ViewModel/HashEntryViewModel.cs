@@ -29,7 +29,10 @@
 			}
 			set
 			{
-				Set(() => Name, ref _name, value);
+				if (Set(() => Name, ref _name, value))
+				{
+					Messages.HashEntryNameChanged.Send(value);
+				}
 			}
 		}
 
@@ -44,7 +47,10 @@
 			}
 			set
 			{
-				Set(() => Value, ref _value, value);
+				if (Set(() => Value, ref _value, value))
+				{
+					Messages.HashEntryValueChanged.Send(value);
+				}
 			}
 		}
 		#endregion

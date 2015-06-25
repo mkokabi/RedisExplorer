@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\RedisValueConverter.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>

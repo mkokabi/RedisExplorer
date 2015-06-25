@@ -39,12 +39,30 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 			if (redisData.Hash != null)
 			{
-				this.hash = new ObservableCollection<HashEntryViewModel>(
-						redisData.Hash.Select(hashEntry => new HashEntryViewModel
-						{
-							Name = hashEntry.Name, Value = hashEntry.Value
-						}
-					)
+				this.hash = new ObservableCollection<HashEntryViewModel>();
+				redisData.Hash.Select(hashEntry => new HashEntryViewModel
+					{
+						Name = hashEntry.Name, Value = hashEntry.Value
+					}
+				).ToList().ForEach(this.hash.Add);
+			}
+			if (this.Type == RedisType.Hash)
+			{
+				Messages.HashEntryNameChanged.Register(
+					this, 
+					newName =>
+					{
+						string oldValue = this.redisData.Hash[this.selectedItemIndex].Value;
+						this.redisData.Hash[this.selectedItemIndex] = new HashEntry(newName, oldValue);
+					}
+				);
+				Messages.HashEntryValueChanged.Register(
+					this,
+					newValue =>
+					{
+						string oldName = this.redisData.Hash[this.selectedItemIndex].Name;
+						this.redisData.Hash[this.selectedItemIndex] = new HashEntry(oldName, newValue);
+					}
 				);
 			}
 		}
@@ -130,8 +148,8 @@ namespace RedisExplorer.UserControl.ViewModel
 				if (!ignoreUpdatingValue)
 				{
 					this.Hash[this.selectedItemIndex] = value;
-					this.redisData.Hash[this.selectedItemIndex] = value;
 				}
+				this.redisData.Hash[this.selectedItemIndex] = value;
 			}
 		}
 
