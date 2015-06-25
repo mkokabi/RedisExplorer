@@ -158,6 +158,12 @@ namespace RedisExplorer.Manager
 						list.ToList().ForEach(value => redisDatabase.ListSetByIndex(data.Key, index, data.Values[index++]));
 						break;
 					}
+				case RedisType.Set:
+					{
+						redisDatabase.KeyDelete(data.Key);
+						data.Values.ToList().ForEach(value => redisDatabase.SetAdd(data.Key, data.Values));
+						break;
+					}
 				case RedisType.Hash:
 					{
 						redisDatabase.KeyDelete(data.Key);
