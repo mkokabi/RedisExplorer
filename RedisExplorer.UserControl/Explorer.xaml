@@ -17,19 +17,19 @@
 
 	<Grid DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 		<DockPanel LastChildFill="True">
-			<Grid DockPanel.Dock="Top">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="55" />
-				</Grid.ColumnDefinitions>
-				<DockPanel LastChildFill="True" Grid.Column="0">
-					<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="50" DockPanel.Dock="Right"/>
-					<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}"></TextBox>
-				</DockPanel>
-				<ComboBox Name="dbsComboBox" Grid.Column="1"
+			<ToolBarTray DockPanel.Dock="Top">
+				<ToolBar>
+					<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}" MinWidth="100"></TextBox>
+					<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="50" />
+					<ComboBox Name="dbsComboBox" MinWidth="50"
 						ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
-				</ComboBox>
-			</Grid>
+					</ComboBox>
+				</ToolBar>
+				<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
+					<Button Command="{Binding Path=NewCommand}">New</Button>
+					<Button Command="{Binding Path=DeleteCommand}">Delete</Button>
+				</ToolBar>
+			</ToolBarTray>
 			<DockPanel DockPanel.Dock="Top" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
 				<ToolBarTray DockPanel.Dock="Top">
 					<ToolBar DockPanel.Dock="Top" >

@@ -41,7 +41,13 @@ namespace RedisExplorer.UserControl.ViewModel
 		ValueEditorViewModel selectedValueEditorViewModel;
 
 		IManager manager;
-		
+
+		ICommand newCommand;
+
+		ICommand deleteCommand;
+
+		bool isConnected;
+
 		#endregion
 
 		/// <summary>
@@ -62,6 +68,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			this.editMode = false;
 			this.selectedValueEditorViewModel = new ViewModelLocator().ValueEditorViewModel;
 			this.manager = manager;
+			this.isConnected = false;
 			this.PropertyChanged += (sender, args) =>
 			{
 				if (args.PropertyName == "CurrentDatabase")
@@ -95,6 +102,28 @@ namespace RedisExplorer.UserControl.ViewModel
 			get
 			{
 				return this.saveCommand ?? (this.saveCommand = new RelayCommand(this.Save));
+			}
+		}
+
+		/// <summary>
+		/// The new command called by clicking on New button on main toolbar.
+		/// </summary>
+		public ICommand NewCommand
+		{
+			get
+			{
+				return this.newCommand ?? (this.newCommand = new RelayCommand(this.New));
+			}
+		}
+
+		/// <summary>
+		/// The delete command called by clicking on Delete button on main toolbar.
+		/// </summary>
+		public ICommand DeleteCommand
+		{
+			get
+			{
+				return this.deleteCommand ?? (this.deleteCommand = new RelayCommand(this.Delete));
 			}
 		}
 
@@ -252,7 +281,23 @@ namespace RedisExplorer.UserControl.ViewModel
 			{
 				return !this.EditMode;
 			}
-		} 
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether Explorer is connected.
+		/// </summary>
+		public bool IsConnected
+		{
+			get
+			{
+				return this.isConnected;
+			}
+			private set
+			{
+				Set(() => IsConnected, ref this.isConnected, value);
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -263,6 +308,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			try
 			{
 				this.manager.Connect(this.RedisUrl);
+				IsConnected = true;
 				this.Databases.Clear();
 				this.manager.GetDatabases().ToList().ForEach(dbName => this.Databases.Add(dbName));
 				
@@ -314,6 +360,22 @@ namespace RedisExplorer.UserControl.ViewModel
 		{
 			this.manager.Update(this.currentDatabase, this.selectedItem.RedisData);
 			this.EditMode = false;
+		}
+
+		/// <summary>
+		/// The actual new method behind the New command.
+		/// </summary>
+		public void New()
+		{
+			MessageBox.Show("New");
+		}
+
+		/// <summary>
+		/// The actual delete method behind the Delete command.
+		/// </summary>
+		public void Delete()
+		{
+			MessageBox.Show("Delete");
 		}
 
 		/// <summary>
