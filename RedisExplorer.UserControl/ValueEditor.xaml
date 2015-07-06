@@ -31,7 +31,7 @@
 			<DataTemplate x:Key="_listDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="75"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
@@ -63,7 +63,7 @@
 			<DataTemplate x:Key="_setDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="75"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
@@ -141,7 +141,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="25"></RowDefinition>
-			<RowDefinition Height="75"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="50"></ColumnDefinition>

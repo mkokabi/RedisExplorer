@@ -13,6 +13,8 @@ namespace RedisExplorer.UserControl.ViewModel
 	using RedisExplorer.Common;
 	using RedisExplorer.ViewModel;
 
+	using StackExchange.Redis;
+
 	/// <summary>
 	/// Redis explorer view model.
 	/// </summary>
@@ -112,7 +114,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		{
 			get
 			{
-				return this.newCommand ?? (this.newCommand = new RelayCommand(this.New));
+				return this.newCommand ?? (this.newCommand = new RelayCommand<RedisType>(this.New));
 			}
 		}
 
@@ -365,9 +367,12 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// <summary>
 		/// The actual new method behind the New command.
 		/// </summary>
-		public void New()
+		/// <param name="type">
+		/// The type of the key to be created.
+		/// </param>
+		public void New(RedisType type)
 		{
-			MessageBox.Show("New");
+			MessageBox.Show("New " + type);
 		}
 
 		/// <summary>

@@ -7,6 +7,8 @@
 			 xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			xmlns:ViewModel="clr-namespace:RedisExplorer.ViewModel"
 			xmlns:UserControl="clr-namespace:RedisExplorer.UserControl"
+			xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
+			xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 			mc:Ignorable="d"
 			 d:DesignHeight="300" d:DesignWidth="300"
 			 Name="MyToolWindow">
@@ -16,45 +18,67 @@
 	</UserControl.Resources>
 
 	<Grid DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
-		<DockPanel LastChildFill="True">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="5"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<ToolBarTray Grid.Row="0">
+			<ToolBar>
+				<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}" MinWidth="100"></TextBox>
+				<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="50" />
+				<ComboBox Name="dbsComboBox" MinWidth="50"
+					ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
+				</ComboBox>
+			</ToolBar>
+			<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
+				<xctk:DropDownButton Content="New">
+					<xctk:DropDownButton.DropDownContent>
+						<StackPanel Orientation="Vertical" Width="125">
+							<StackPanel.Resources>
+								<Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+									<Setter Property="Width" Value="100" />
+									<Setter Property="HorizontalContentAlignment" Value="Left" />
+									<Setter Property="HorizontalAlignment" Value="Left" />
+								</Style>
+							</StackPanel.Resources>
+							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.String}">String</Button>
+							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.List}">List</Button>
+							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.Hash}">List</Button>
+						</StackPanel>
+					</xctk:DropDownButton.DropDownContent>
+				</xctk:DropDownButton>
+				<Button Command="{Binding Path=DeleteCommand}">Delete</Button>
+			</ToolBar>
+		</ToolBarTray>
+		<DockPanel Grid.Row="1" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
 			<ToolBarTray DockPanel.Dock="Top">
-				<ToolBar>
-					<TextBox Name="urlTextBox" Text="{Binding Path=RedisUrl}" MinWidth="100"></TextBox>
-					<Button Content="Connect" Command="{Binding Path=ConnectCommand}" Width="50" />
-					<ComboBox Name="dbsComboBox" MinWidth="50"
-						ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
-					</ComboBox>
-				</ToolBar>
-				<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
-					<Button Command="{Binding Path=NewCommand}">New</Button>
-					<Button Command="{Binding Path=DeleteCommand}">Delete</Button>
+				<ToolBar DockPanel.Dock="Top" >
+					<Button Command="{Binding Path=SaveCommand}">Save</Button>
+					<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
 				</ToolBar>
 			</ToolBarTray>
-			<DockPanel DockPanel.Dock="Top" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
-				<ToolBarTray DockPanel.Dock="Top">
-					<ToolBar DockPanel.Dock="Top" >
-						<Button Command="{Binding Path=SaveCommand}">Save</Button>
-						<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
-					</ToolBar>
-				</ToolBarTray>
-				<UserControl:ValueEditor />
-			</DockPanel>
-			<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="SelectionChanged">
-						<Command:EventToCommand Command="{Binding RowChangedCommand}" CommandParameter="{Binding SelectedItems, ElementName=_dataGrid}" />
-					</i:EventTrigger>
-					<i:EventTrigger EventName="MouseDoubleClick">
-						<Command:EventToCommand Command="{Binding GridDoubleClickCommand}" CommandParameter="{Binding SelectedItem, ElementName=_dataGrid}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
-					<DataGridTextColumn Header="Type" Binding="{Binding Type}" ></DataGridTextColumn>
-					<DataGridTextColumn Header="Value" Binding="{Binding Text}" ></DataGridTextColumn>
-				</DataGrid.Columns>
-			</DataGrid>
+			<UserControl:ValueEditor />
 		</DockPanel>
+		<GridSplitter Grid.Row="2" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="5"
+					  Visibility="{Binding EditPanelVisibility}">
+		</GridSplitter>
+		<DataGrid Grid.Row="3" Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="False" 
+					IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="SelectionChanged">
+					<Command:EventToCommand Command="{Binding RowChangedCommand}" CommandParameter="{Binding SelectedItems, ElementName=_dataGrid}" />
+				</i:EventTrigger>
+				<i:EventTrigger EventName="MouseDoubleClick">
+					<Command:EventToCommand Command="{Binding GridDoubleClickCommand}" CommandParameter="{Binding SelectedItem, ElementName=_dataGrid}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
+				<DataGridTextColumn Header="Type" Binding="{Binding Type}" ></DataGridTextColumn>
+				<DataGridTextColumn Header="Value" Binding="{Binding Text}" ></DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </UserControl>
