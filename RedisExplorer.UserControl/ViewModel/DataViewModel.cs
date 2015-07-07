@@ -52,17 +52,24 @@ namespace RedisExplorer.UserControl.ViewModel
 					this, 
 					newName =>
 					{
+						if (!this.redisData.Loaded)
+						{
+							return;
+						}
 						string oldValue = this.redisData.Hash[this.selectedItemIndex].Value;
 						this.redisData.Hash[this.selectedItemIndex] = new HashEntry(newName, oldValue);
-					}
-				);
+					});
 				Messages.HashEntryValueChanged.Register(
-					this,
+					this, 
 					newValue =>
-					{
-						string oldName = this.redisData.Hash[this.selectedItemIndex].Name;
-						this.redisData.Hash[this.selectedItemIndex] = new HashEntry(oldName, newValue);
-					}
+						{
+							if (!this.redisData.Loaded)
+							{
+								return;
+							}
+							string oldName = this.redisData.Hash[this.selectedItemIndex].Name;
+							this.redisData.Hash[this.selectedItemIndex] = new HashEntry(oldName, newValue);
+						}
 				);
 			}
 		}
@@ -251,6 +258,10 @@ namespace RedisExplorer.UserControl.ViewModel
 		{
 			get
 			{
+				if (!this.RedisData.Loaded)
+				{
+					return "<Not loaded>";
+				}
 				switch (Type)
 				{
 					case RedisType.String:

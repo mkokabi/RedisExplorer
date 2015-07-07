@@ -9,6 +9,8 @@ namespace RedisExplorer.Common.DataTypes
 	/// </summary>
 	public class RedisData 
 	{
+		bool loaded;
+
 		/// <summary>
 		/// The redis data key.
 		/// </summary>
@@ -39,7 +41,7 @@ namespace RedisExplorer.Common.DataTypes
 		/// <summary>
 		/// Redis data hash values.
 		/// </summary>
-		public HashEntry[] Hash
+		public IList<HashEntry> Hash
 		{
 			get;
 			set;
@@ -64,16 +66,69 @@ namespace RedisExplorer.Common.DataTypes
 		}
 
 		/// <summary>
+		/// A flag indicating whether the value is loaded.
+		/// </summary>
+		public bool Loaded
+		{
+			get
+			{
+				return this.loaded;
+			}
+			private set
+			{
+				this.loaded = value;
+			}
+		}
+
+		/// <summary>
 		/// Default constructor
 		/// </summary>
 		public RedisData()
 		{
+			this.loaded = false;
 		}
 
-		private RedisData(string key, RedisType type)
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RedisData"/> class.
+		/// </summary>
+		/// <param name="key">
+		/// The key.
+		/// </param>
+		/// <param name="type">
+		/// The type.
+		/// </param>
+		public RedisData(string key, RedisType type)
 		{
 			this.Key = key;
 			this.Type = type;
+			switch (this.Type)
+			{
+				case RedisType.String:
+					{
+						this.Value = default(string);
+						break;
+					}
+				case RedisType.List:
+					{
+						this.Values = new RedisValue[0];
+						break;
+					}
+				case RedisType.Hash:
+					{
+						this.Hash = new HashEntry[0];
+						break;
+					}
+				case RedisType.Set:
+					{
+						this.Values = new RedisValue[0];
+						break;
+					}
+				case RedisType.SortedSet:
+					{
+						this.SortedSet = new List<SortedSetEntry>();
+						break;
+					}
+			}
 		}
 
 		/// <summary>
@@ -89,6 +144,7 @@ namespace RedisExplorer.Common.DataTypes
 			: this(key, RedisType.String)
 		{
 			this.Value = value;
+			this.loaded = true;
 		}
 
 		/// <summary>
@@ -107,6 +163,7 @@ namespace RedisExplorer.Common.DataTypes
 			: this(key, redisType)
 		{
 			this.Values = values;
+			this.loaded = true;
 		}
 
 		/// <summary>
@@ -122,6 +179,7 @@ namespace RedisExplorer.Common.DataTypes
 			: this(key, RedisType.Hash)
 		{
 			this.Hash = hash;
+			this.loaded = true;
 		}
 
 		/// <summary>
@@ -137,6 +195,7 @@ namespace RedisExplorer.Common.DataTypes
 			: this(key, RedisType.SortedSet)
 		{
 			this.SortedSet = sortedSet;
+			this.loaded = true;
 		}
 	}
 }

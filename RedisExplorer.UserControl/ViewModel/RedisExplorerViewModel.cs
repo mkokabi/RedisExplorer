@@ -333,7 +333,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			try
 			{
 				this.KeyValueCollection.Clear();
-				this.manager.GetData(redisDatabase).ToList().ForEach(data => this.KeyValueCollection.Add(new DataViewModel(data)));
+				this.manager.GetKeys(redisDatabase).ToList().ForEach(data => this.KeyValueCollection.Add(new DataViewModel(data)));
 				this.SelectedItem = this.KeyValueCollection.FirstOrDefault();
 			}
 			catch (Exception ex)
@@ -351,6 +351,34 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
+			switch (redisData.Type)
+			{
+				case RedisType.String:
+					{
+						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
+						break;
+					}
+				case RedisType.List:
+					{
+						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
+						break;
+					}
+				case RedisType.Hash:
+					{
+						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
+						break;
+					}
+				case RedisType.Set:
+					{
+						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
+						break;
+					}
+				case RedisType.SortedSet:
+					{
+						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
+						break;
+					}
+			}
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
 		}

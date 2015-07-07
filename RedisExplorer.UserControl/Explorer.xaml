@@ -32,7 +32,7 @@
 					ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
 				</ComboBox>
 			</ToolBar>
-			<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
+			<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}" Visibility="Hidden">
 				<xctk:DropDownButton Content="New">
 					<xctk:DropDownButton.DropDownContent>
 						<StackPanel Orientation="Vertical" Width="125">

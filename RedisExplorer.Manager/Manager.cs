@@ -64,6 +64,54 @@ namespace RedisExplorer.Manager
 		}
 
 		/// <summary>
+		/// Return the value of selected key in a database
+		/// </summary>
+		/// <param name="database">
+		/// database name.
+		/// </param>
+		/// <param name="redisType">
+		/// the type
+		/// </param>
+		/// <param name="key">
+		/// the key
+		/// </param>
+		/// <returns>
+		/// The value as RedisData
+		/// </returns>
+		public RedisData GetValue(string database, RedisType redisType, string key)
+		{
+			if (database == null)
+			{
+				throw new ArgumentNullException("database");
+			}
+			IDatabase redisDatabase = this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			switch (redisType)
+			{
+				case RedisType.String:
+					{
+						return new RedisData(key, redisDatabase.StringGet(key));
+					}
+				case RedisType.List:
+					{
+						return new RedisData(key, redisDatabase.ListRange(key));
+					}
+				case RedisType.Hash:
+					{
+						return new RedisData(key, redisDatabase.HashGetAll(key));
+					}
+				case RedisType.Set:
+					{
+						return new RedisData(key, redisDatabase.SetMembers(key), RedisType.Set);
+					}
+				case RedisType.SortedSet:
+					{
+						return new RedisData(key, redisDatabase.SortedSetScan(key));
+					}
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Get the data from the database.
 		/// </summary>
 		/// <param name="database">
@@ -72,7 +120,7 @@ namespace RedisExplorer.Manager
 		/// <returns>
 		/// The <see cref="IReadOnlyCollection"/>.
 		/// </returns>
-		public IReadOnlyCollection<RedisData> GetData(string database)
+		public IReadOnlyCollection<RedisData> GetKeys(string database)
 		{
 			if (database == null)
 			{
@@ -86,34 +134,7 @@ namespace RedisExplorer.Manager
 				{
 					try
 					{
-						switch (redisDatabase.KeyType(key))
-						{
-							case RedisType.String:
-								{
-									KeyValueCollection.Add(new RedisData(key, redisDatabase.StringGet(key)));
-									break;
-								}
-							case RedisType.List:
-								{
-									KeyValueCollection.Add(new RedisData(key, redisDatabase.ListRange(key)));
-									break;
-								}
-							case RedisType.Hash:
-								{
-									KeyValueCollection.Add(new RedisData(key, redisDatabase.HashGetAll(key)));
-									break;
-								}
-							case RedisType.Set:
-								{
-									KeyValueCollection.Add(new RedisData(key, redisDatabase.SetMembers(key), RedisType.Set));
-									break;
-								}
-							case RedisType.SortedSet:
-								{
-									KeyValueCollection.Add(new RedisData(key, redisDatabase.SortedSetScan(key)));
-									break;
-								}
-						}
+						KeyValueCollection.Add(new RedisData(key, redisDatabase.KeyType(key)));
 					}
 					catch (Exception ex)
 					{
@@ -167,7 +188,7 @@ namespace RedisExplorer.Manager
 				case RedisType.Hash:
 					{
 						redisDatabase.KeyDelete(data.Key);
-						data.Hash.ToList().ForEach(entry => redisDatabase.HashSet(data.Key, data.Hash));
+						data.Hash.ToList().ForEach(entry => redisDatabase.HashSet(data.Key, data.Hash.ToArray()));
 						break;
 					}
 			}
