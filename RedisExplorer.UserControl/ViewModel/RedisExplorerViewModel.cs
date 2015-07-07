@@ -351,6 +351,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
+			var index = this.KeyValueCollection.IndexOf(this.SelectedItem);
 			switch (redisData.Type)
 			{
 				case RedisType.String:
@@ -381,6 +382,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
+			this.KeyValueCollection[index] = this.SelectedItem;
 		}
 
 		/// <summary>
