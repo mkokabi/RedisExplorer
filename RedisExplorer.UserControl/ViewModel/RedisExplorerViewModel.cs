@@ -402,7 +402,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void New(RedisType type)
 		{
-			MessageBox.Show("New " + type);
+			MessageBox.Show("Not implemented...", "Redis Explorer");
 		}
 
 		/// <summary>
@@ -410,7 +410,19 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </summary>
 		public void Delete()
 		{
-			MessageBox.Show("Delete");
+			if (MessageBox.Show(string.Format("{0} will be deleted, are you sure?", this.SelectedItem.Key), "Warning", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+			{
+				try
+				{
+					this.manager.DeleteKey(this.CurrentDatabase, this.SelectedItem.Key);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(string.Format("Can not delete this key. {0}",  ex.Message),
+						"Redis Explorer");
+				}
+				SwitchDatabase(this.CurrentDatabase);
+			}
 		}
 
 		/// <summary>

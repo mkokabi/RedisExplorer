@@ -145,6 +145,25 @@ namespace RedisExplorer.Manager
 		}
 
 		/// <summary>
+		/// Delete key.
+		/// </summary>
+		/// <param name="database">
+		/// The database.
+		/// </param>
+		/// <param name="key">
+		/// The key.
+		/// </param>
+		public void DeleteKey(string database, string key)
+		{
+			if (database == null)
+			{
+				throw new ArgumentNullException("database");
+			}
+			IDatabase redisDatabase = this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			redisDatabase.KeyDelete(key);
+		}
+
+		/// <summary>
 		/// Update database values.
 		/// </summary>
 		/// <param name="database">

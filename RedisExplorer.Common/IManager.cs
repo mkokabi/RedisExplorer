@@ -45,6 +45,17 @@ namespace RedisExplorer.Common
 		RedisData GetValue(string database, RedisType redisType, string key);
 
 		/// <summary>
+		/// Delete key.
+		/// </summary>
+		/// <param name="database">
+		/// The database.
+		/// </param>
+		/// <param name="key">
+		/// The key.
+		/// </param>
+		void DeleteKey(string database, string key);
+
+		/// <summary>
 		/// Get the data from the database.
 		/// </summary>
 		/// <param name="database">
