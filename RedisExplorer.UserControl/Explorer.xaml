@@ -8,7 +8,6 @@
 			xmlns:ViewModel="clr-namespace:RedisExplorer.ViewModel"
 			xmlns:UserControl="clr-namespace:RedisExplorer.UserControl"
 			xmlns:Redis="clr-namespace:StackExchange.Redis;assembly=StackExchange.Redis"
-			xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 			mc:Ignorable="d"
 			 d:DesignHeight="300" d:DesignWidth="300"
 			 Name="MyToolWindow">
@@ -33,27 +32,19 @@
 				</ComboBox>
 			</ToolBar>
 			<ToolBar>
-				<TextBlock>Key:</TextBlock>
 				<TextBox Text="{Binding Path=KeyRegex}" MinWidth="50" />
-				<Button Content="Find" Command="{Binding Path=FindKeyCommand}"/>
+				<Button Command="{Binding Path=FindKeyCommand}" >
+					<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\Find_5650.png" />
+				</Button>
 			</ToolBar>
-			<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
-				<xctk:DropDownButton Content="New">
-					<xctk:DropDownButton.DropDownContent>
-						<StackPanel Orientation="Vertical" Width="125">
-							<StackPanel.Resources>
-								<Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
-									<Setter Property="Width" Value="100" />
-									<Setter Property="HorizontalContentAlignment" Value="Left" />
-									<Setter Property="HorizontalAlignment" Value="Left" />
-								</Style>
-							</StackPanel.Resources>
-							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.String}">String</Button>
-							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.List}">List</Button>
-							<Button Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.Hash}">List</Button>
-						</StackPanel>
-					</xctk:DropDownButton.DropDownContent>
-				</xctk:DropDownButton>
+			<ToolBar IsEnabled="{Binding IsConnected}">
+				<Menu>
+					<MenuItem Header="New">
+						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.String}" Header="String"/>
+						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.List}" Header="List"/>
+						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.Hash}" Header="Hash"/>
+					</MenuItem>
+				</Menu>
 				<Button Command="{Binding Path=DeleteCommand}">Delete</Button>
 			</ToolBar>
 		</ToolBarTray>
