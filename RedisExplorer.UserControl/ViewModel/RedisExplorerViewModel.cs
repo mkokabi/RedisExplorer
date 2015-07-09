@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -49,6 +50,14 @@ namespace RedisExplorer.UserControl.ViewModel
 		ICommand deleteCommand;
 
 		bool isConnected;
+
+		ICommand findKeyCommand;
+
+		string keyRegex;
+
+		int selectedIndex;
+
+		bool isGridFocused;
 
 		#endregion
 
@@ -160,7 +169,19 @@ namespace RedisExplorer.UserControl.ViewModel
 			{
 				return this.gridDoubleClickCommand ?? (this.gridDoubleClickCommand = new RelayCommand<DataViewModel>(this.SwitchToEditMode));
 			}
-		} 
+		}
+
+		/// <summary>
+		/// The find key command.
+		/// </summary>
+		public ICommand FindKeyCommand
+		{
+			get
+			{
+				return this.findKeyCommand ?? (this.findKeyCommand = new RelayCommand(this.FindKey));
+			}
+		}
+
 		#endregion
 
 		#region Public properties
@@ -300,6 +321,51 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 		}
 
+		/// <summary>
+		/// The regex string for looking up a key.
+		/// </summary>
+		public string KeyRegex
+		{
+			get
+			{
+				return this.keyRegex;
+			}
+			set
+			{
+				this.Set(() => KeyRegex, ref keyRegex, value);
+			}
+		}
+
+		/// <summary>
+		/// The selected index in the grid.
+		/// </summary>
+		public int SelectedIndex
+		{
+			get
+			{
+				return this.selectedIndex;
+			}
+			set
+			{
+				Set(() => SelectedIndex, ref selectedIndex, value);
+			}
+		}
+
+		/// <summary>
+		/// Set or reset the grid selection status.
+		/// </summary>
+		public bool IsGridFocused
+		{
+			get
+			{
+				return this.isGridFocused;
+			}
+			set
+			{
+				Set(() => this.IsGridFocused, ref this.isGridFocused, value);
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -431,6 +497,26 @@ namespace RedisExplorer.UserControl.ViewModel
 		public void Cancel()
 		{
 			this.EditMode = false;
+		}
+
+		/// <summary>
+		/// The find key.
+		/// </summary>
+		public void FindKey()
+		{
+			if (string.IsNullOrWhiteSpace(this.keyRegex))
+			{
+				MessageBox.Show(string.Format("Please enter a search string. {0}", this.keyRegex));
+			}
+			Regex regex = new Regex(this.keyRegex);
+			var found = this.KeyValueCollection.FirstOrDefault(keyValue => regex.Match(keyValue.Key).Success);
+			if (found == null)
+			{
+				MessageBox.Show(string.Format("Can not find and key as : {0}", this.keyRegex));
+				return;
+			}
+			this.SelectedIndex = this.KeyValueCollection.IndexOf(found);
+			this.IsGridFocused = true;
 		}
 
 		/// <summary>

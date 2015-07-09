@@ -32,6 +32,11 @@
 					ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
 				</ComboBox>
 			</ToolBar>
+			<ToolBar>
+				<TextBlock>Key:</TextBlock>
+				<TextBox Text="{Binding Path=KeyRegex}" MinWidth="50" />
+				<Button Content="Find" Command="{Binding Path=FindKeyCommand}"/>
+			</ToolBar>
 			<ToolBar DockPanel.Dock="Top" IsEnabled="{Binding IsConnected}">
 				<xctk:DropDownButton Content="New">
 					<xctk:DropDownButton.DropDownContent>
@@ -65,7 +70,8 @@
 					  Visibility="{Binding EditPanelVisibility}">
 		</GridSplitter>
 		<DataGrid Grid.Row="3" Name="_dataGrid" ItemsSource="{Binding Path=KeyValueCollection}" AutoGenerateColumns="False" 
-					IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}">
+					IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="{Binding BrowseMode}"
+					SelectedIndex="{Binding Path=SelectedIndex}" UserControl:FocusExtension.IsFocused="{Binding IsGridFocused}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="SelectionChanged">
 					<Command:EventToCommand Command="{Binding RowChangedCommand}" CommandParameter="{Binding SelectedItems, ElementName=_dataGrid}" />
