@@ -169,9 +169,13 @@ namespace RedisExplorer.UserControl.ViewModel
 			{
 				return redisData.Key;
 			}
-			// ReSharper disable once ValueParameterNotUsed
 			set
 			{
+				if (redisData.Key != value)
+				{
+					redisData.Key = value;
+					this.Broadcast(string.Empty, value, "Key");
+				}
 			}
 		}
 

@@ -12,6 +12,7 @@ namespace RedisExplorer.UserControl.ViewModel
 	using GalaSoft.MvvmLight.Command;
 
 	using RedisExplorer.Common;
+	using RedisExplorer.Common.DataTypes;
 	using RedisExplorer.ViewModel;
 
 	using StackExchange.Redis;
@@ -418,37 +419,14 @@ namespace RedisExplorer.UserControl.ViewModel
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
 			var index = this.KeyValueCollection.IndexOf(this.SelectedItem);
-			switch (redisData.Type)
-			{
-				case RedisType.String:
-					{
-						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
-						break;
-					}
-				case RedisType.List:
-					{
-						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
-						break;
-					}
-				case RedisType.Hash:
-					{
-						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
-						break;
-					}
-				case RedisType.Set:
-					{
-						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
-						break;
-					}
-				case RedisType.SortedSet:
-					{
-						this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
-						break;
-					}
-			}
+			this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
-			this.KeyValueCollection[index] = this.SelectedItem;
+
+			if (!this.SelectedValueEditorViewModel.IsNew)
+			{
+				this.KeyValueCollection[index] = this.SelectedItem;
+			}
 		}
 
 		/// <summary>
@@ -458,6 +436,19 @@ namespace RedisExplorer.UserControl.ViewModel
 		{
 			this.manager.Update(this.currentDatabase, this.selectedItem.RedisData);
 			this.EditMode = false;
+			this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, this.selectedItem.RedisData.Type, this.selectedItem.RedisData.Key));
+
+			if (this.SelectedValueEditorViewModel.IsNew)
+			{
+				this.KeyValueCollection.Add(this.SelectedItem);
+			}
+			else
+			{
+				var index = this.KeyValueCollection.IndexOf(this.SelectedItem);
+				this.KeyValueCollection[index] = this.SelectedItem;
+			}
+
+			this.SelectedValueEditorViewModel.IsNew = false;
 		}
 
 		/// <summary>
@@ -468,7 +459,10 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void New(RedisType type)
 		{
-			MessageBox.Show("Not implemented...", "Redis Explorer");
+			RedisData newRedisData = new RedisData(string.Empty, type);
+			DataViewModel newDataViewModel = new DataViewModel(newRedisData);
+			this.SelectedValueEditorViewModel.IsNew = true;
+			this.SwitchToEditMode(newDataViewModel);
 		}
 
 		/// <summary>

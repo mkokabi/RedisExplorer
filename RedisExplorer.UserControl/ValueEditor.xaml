@@ -149,7 +149,7 @@
 		</Grid.ColumnDefinitions>
 		<Label Grid.Row="0" Grid.Column="0">Edit</Label>
 		<Label Grid.Row="1" Grid.Column="0">Key</Label>
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="True"></TextBox>
+		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="{Binding Path=ReadOnlyKey}"></TextBox>
 		<Label Grid.Row="2" Grid.Column="0">Value</Label>
 		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}">
 			<ContentControl.Style>
