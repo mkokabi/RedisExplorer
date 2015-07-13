@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RedisExplorer.Common.DataTypes
 {
@@ -9,7 +10,7 @@ namespace RedisExplorer.Common.DataTypes
 	/// </summary>
 	public class RedisData 
 	{
-		bool loaded;
+		readonly bool loaded;
 
 		/// <summary>
 		/// The redis data key.
@@ -32,7 +33,7 @@ namespace RedisExplorer.Common.DataTypes
 		/// <summary>
 		/// Redis data list values.
 		/// </summary>
-		public RedisValue[] Values
+		public IList<RedisValue> Values
 		{
 			get;
 			set;
@@ -74,10 +75,6 @@ namespace RedisExplorer.Common.DataTypes
 			{
 				return this.loaded;
 			}
-			private set
-			{
-				this.loaded = value;
-			}
 		}
 
 		/// <summary>
@@ -110,7 +107,7 @@ namespace RedisExplorer.Common.DataTypes
 					}
 				case RedisType.List:
 					{
-						this.Values = new RedisValue[0];
+						this.Values = new RedisValue[0].ToList();
 						break;
 					}
 				case RedisType.Hash:
@@ -120,7 +117,7 @@ namespace RedisExplorer.Common.DataTypes
 					}
 				case RedisType.Set:
 					{
-						this.Values = new RedisValue[0];
+						this.Values = new RedisValue[0].ToList();
 						break;
 					}
 				case RedisType.SortedSet:
@@ -162,7 +159,7 @@ namespace RedisExplorer.Common.DataTypes
 		public RedisData(string key, RedisValue[] values, RedisType redisType = RedisType.List)
 			: this(key, redisType)
 		{
-			this.Values = values;
+			this.Values = values.ToList();
 			this.loaded = true;
 		}
 

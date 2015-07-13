@@ -76,6 +76,7 @@
     <Compile Include="FocusExtension.cs" />
     <Compile Include="Converters\RedisValueConverter.cs" />
     <Compile Include="Messages.cs" />
+    <Compile Include="RedisDataCollection.cs" />
     <Compile Include="ValueEditor.xaml.cs">
       <DependentUpon>ValueEditor.xaml</DependentUpon>
     </Compile>
@@ -115,6 +116,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\NewBuildDefinition_8952.png" />
+    <Resource Include="Resources\Newkey_307.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

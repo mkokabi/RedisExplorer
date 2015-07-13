@@ -35,7 +35,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			this.Value = redisData.Value;
 			if (redisData.Values != null)
 			{
-				this.values = new ObservableCollection<string>(redisData.Values.ToStringArray());
+				this.values = new ObservableCollection<string>(redisData.Values.ToArray().ToStringArray());
 			}
 			if (redisData.Hash != null)
 			{

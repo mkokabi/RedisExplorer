@@ -193,15 +193,15 @@ namespace RedisExplorer.Manager
 					}
 				case RedisType.List:
 					{
-						var list = redisDatabase.ListRange(data.Key);
+						redisDatabase.KeyDelete(data.Key);
 						int index = 0;
-						list.ToList().ForEach(value => redisDatabase.ListSetByIndex(data.Key, index, data.Values[index++]));
+						data.Values.ToList().ForEach(value => redisDatabase.ListRightPush(data.Key, data.Values[index++]));
 						break;
 					}
 				case RedisType.Set:
 					{
 						redisDatabase.KeyDelete(data.Key);
-						data.Values.ToList().ForEach(value => redisDatabase.SetAdd(data.Key, data.Values));
+						data.Values.ToList().ForEach(value => redisDatabase.SetAdd(data.Key, data.Values.ToArray()));
 						break;
 					}
 				case RedisType.Hash:

@@ -60,6 +60,10 @@ namespace RedisExplorer.UserControl.ViewModel
 
 		bool isGridFocused;
 
+		ICommand addEntryCommand;
+
+		ICommand removeEntryCommand;
+
 		#endregion
 
 		/// <summary>
@@ -74,7 +78,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			{
 				throw new ArgumentNullException("manager");
 			}
-			this.KeyValueCollection = new ObservableCollection<DataViewModel>();
+			this.KeyValueCollection = new RedisDataCollection();
 			this.Databases  = new ObservableCollection<string>();
 			this.redisUrl = "localhost:6379";
 			this.editMode = false;
@@ -103,6 +107,28 @@ namespace RedisExplorer.UserControl.ViewModel
 			get
 			{
 				return this.connectCommand ?? (this.connectCommand = new RelayCommand(this.Connect));
+			}
+		}
+
+		/// <summary>
+		/// The add entry command called by clicking on New Entry button.
+		/// </summary>
+		public ICommand AddEntryCommand
+		{
+			get
+			{
+				return this.addEntryCommand ?? (this.addEntryCommand = new RelayCommand(this.AddEntry));
+			}
+		}
+
+		/// <summary>
+		/// The remove entry command called by clicking on Remove Entry button.
+		/// </summary>
+		public ICommand RemoveEntryCommand
+		{
+			get
+			{
+				return this.removeEntryCommand ?? (this.removeEntryCommand = new RelayCommand(this.RemoveEntry));
 			}
 		}
 
@@ -198,7 +224,10 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 			set
 			{
-				this.Set(() => this.SelectedItem, ref this.selectedItem, value);
+				if (this.Set(() => this.SelectedItem, ref this.selectedItem, value))
+				{
+					this.RaisePropertyChanged(() => IsListType);
+				}
 			}
 		}
 
@@ -243,7 +272,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// <summary>
 		/// The key value collection of data.
 		/// </summary>
-		public ObservableCollection<DataViewModel> KeyValueCollection
+		public RedisDataCollection KeyValueCollection
 		{
 			get;
 			set;
@@ -319,6 +348,26 @@ namespace RedisExplorer.UserControl.ViewModel
 			private set
 			{
 				Set(() => IsConnected, ref this.isConnected, value);
+			}
+		}
+
+		private static readonly RedisType[] ListTypes = 
+					{
+						RedisType.List, RedisType.Hash, RedisType.Set, RedisType.SortedSet
+					};
+
+		/// <summary>
+		/// A flag indicating whether the current item is a list type.
+		/// </summary>
+		public Visibility IsListType
+		{
+			get
+			{
+				if (this.SelectedItem != null)
+				{
+					return ListTypes.Contains(this.SelectedItem.Type) ? Visibility.Visible : Visibility.Collapsed;
+				}
+				return Visibility.Collapsed;
 			}
 		}
 
@@ -418,7 +467,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
-			var index = this.KeyValueCollection.IndexOf(this.SelectedItem);
+			var index = this.KeyValueCollection.FindIndexByKey(this.SelectedItem.Key);
 			this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;
@@ -426,6 +475,34 @@ namespace RedisExplorer.UserControl.ViewModel
 			if (!this.SelectedValueEditorViewModel.IsNew)
 			{
 				this.KeyValueCollection[index] = this.SelectedItem;
+			}
+		}
+
+		/// <summary>
+		/// The actual remove entry method
+		/// </summary>
+		public void RemoveEntry()
+		{
+			// TODO: Add the other list types
+			if (this.SelectedItem.RedisData.Type == RedisType.List)
+			{
+				// TODO: Investigate how the following two commands can be merged
+				this.SelectedItem.Values.Remove(this.SelectedValueEditorViewModel.Data.SelectedItem);
+				this.SelectedItem.RedisData.Values.Remove(this.SelectedValueEditorViewModel.Data.SelectedItem);
+			}			
+		}
+
+		/// <summary>
+		/// The actual add entry method.
+		/// </summary>
+		public void AddEntry()
+		{
+			// TODO: Add the other list types
+			if (this.SelectedItem.RedisData.Type == RedisType.List)
+			{
+				// TODO: Investigate how the following two commands can be merged
+				this.SelectedItem.Values.Add(string.Empty);
+				this.SelectedItem.RedisData.Values.Add(string.Empty);
 			}
 		}
 
@@ -444,7 +521,7 @@ namespace RedisExplorer.UserControl.ViewModel
 			}
 			else
 			{
-				var index = this.KeyValueCollection.IndexOf(this.SelectedItem);
+				var index = this.KeyValueCollection.FindIndexByKey(this.SelectedItem.Key);
 				this.KeyValueCollection[index] = this.SelectedItem;
 			}
 
@@ -503,13 +580,14 @@ namespace RedisExplorer.UserControl.ViewModel
 				MessageBox.Show(string.Format("Please enter a search string. {0}", this.keyRegex));
 			}
 			Regex regex = new Regex(this.keyRegex);
+			// TODO: Add a method to RedisDataCollection
 			var found = this.KeyValueCollection.FirstOrDefault(keyValue => regex.Match(keyValue.Key).Success);
 			if (found == null)
 			{
 				MessageBox.Show(string.Format("Can not find and key as : {0}", this.keyRegex));
 				return;
 			}
-			this.SelectedIndex = this.KeyValueCollection.IndexOf(found);
+			this.SelectedIndex = this.KeyValueCollection.FindIndexByKey(found.Key);
 			this.IsGridFocused = true;
 		}
 

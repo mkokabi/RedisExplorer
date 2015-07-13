@@ -31,7 +31,7 @@
 					ItemsSource="{Binding Path=Databases}" SelectedItem="{Binding Path=CurrentDatabase}">
 				</ComboBox>
 			</ToolBar>
-			<ToolBar>
+			<ToolBar IsEnabled="{Binding BrowseMode}">
 				<TextBox Text="{Binding Path=KeyRegex}" MinWidth="50" />
 				<Button Command="{Binding Path=FindKeyCommand}" >
 					<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\Find_5650.png" />
@@ -51,6 +51,8 @@
 		<DockPanel Grid.Row="1" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
 			<ToolBarTray DockPanel.Dock="Top">
 				<ToolBar DockPanel.Dock="Top" >
+					<Button Command="{Binding Path=AddEntryCommand}" Visibility="{Binding Path=IsListType}">Add</Button>
+					<Button Command="{Binding Path=RemoveEntryCommand}" Visibility="{Binding Path=IsListType}">Remove</Button>
 					<Button Command="{Binding Path=SaveCommand}">Save</Button>
 					<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
 				</ToolBar>
