@@ -71,6 +71,11 @@
 					<Command:EventToCommand Command="{Binding GridDoubleClickCommand}" CommandParameter="{Binding SelectedItem, ElementName=_dataGrid}" />
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
+
+			<DataGrid.InputBindings>
+				<KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+			</DataGrid.InputBindings>
+
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
 				<DataGridTextColumn Header="Type" Binding="{Binding Type}" ></DataGridTextColumn>
