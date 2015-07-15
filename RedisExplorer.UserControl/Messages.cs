@@ -4,6 +4,8 @@ namespace RedisExplorer.UserControl
 {
 	using GalaSoft.MvvmLight.Messaging;
 
+	using StackExchange.Redis;
+
 	/// <summary>
 	/// The application messages.
 	/// </summary>
@@ -22,7 +24,12 @@ namespace RedisExplorer.UserControl
 			/// <summary>
 			/// Hash entry value changed message type.
 			/// </summary>
-			HashEntryValueChanged
+			HashEntryValueChanged,
+
+			/// <summary>
+			/// The entry added to a list key.
+			/// </summary>
+			EntryAdded
 		}
 
 		/// <summary>
@@ -55,6 +62,7 @@ namespace RedisExplorer.UserControl
 				Messenger.Default.Register(recepient, MessagesTypes.HashEntryNameChanged, action);
 			}
 		}
+
 		/// <summary>
 		/// A message of hash entry changed.
 		/// </summary>
@@ -83,6 +91,37 @@ namespace RedisExplorer.UserControl
 			public static void Register(object recepient, Action<string> action)
 			{
 				Messenger.Default.Register(recepient, MessagesTypes.HashEntryValueChanged, action);
+			}
+		}
+
+		/// <summary>
+		/// A message of an entry get added to a list.
+		/// </summary>
+		public static class EntryAdded
+		{
+			/// <summary>
+			/// Broadcast the entry is added.
+			/// </summary>
+			/// <param name="redisType">
+			/// The redis type.
+			/// </param>
+			public static void Send(RedisType redisType)
+			{
+				Messenger.Default.Send(redisType, MessagesTypes.EntryAdded);
+			}
+
+			/// <summary>
+			/// Register for entry added event.
+			/// </summary>
+			/// <param name="recepient">
+			/// The recepient.
+			/// </param>
+			/// <param name="action">
+			/// The action.
+			/// </param>
+			public static void Register(object recepient, Action<RedisType> action)
+			{
+				Messenger.Default.Register(recepient, MessagesTypes.EntryAdded, action);
 			}
 		}
 	}

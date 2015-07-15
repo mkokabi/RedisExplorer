@@ -503,6 +503,7 @@ namespace RedisExplorer.UserControl.ViewModel
 				// TODO: Investigate how the following two commands can be merged
 				this.SelectedItem.Values.Add(string.Empty);
 				this.SelectedItem.RedisData.Values.Add(string.Empty);
+				Messages.EntryAdded.Send(RedisType.List);
 			}
 		}
 

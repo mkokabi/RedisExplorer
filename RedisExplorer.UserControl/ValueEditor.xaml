@@ -9,6 +9,7 @@
 			xmlns:Command="http://www.galasoft.ch/mvvmlight"
 			 xmlns:ViewModel1="clr-namespace:RedisExplorer.UserControl.ViewModel"
 			 xmlns:Converters="clr-namespace:RedisExplorer.UserControl.Converters"
+			 xmlns:UserControl="clr-namespace:RedisExplorer.UserControl"
 			 x:Name="sveUC"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" >
@@ -37,8 +38,8 @@
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					
-					<DataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+
+					<UserControl:ScrollingDataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Value" Binding="{Binding}" ></DataGridTextColumn>
@@ -50,7 +51,7 @@
 									PassEventArgsToCommand="True" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
-					</DataGrid>
+					</UserControl:ScrollingDataGrid>
 					<StackPanel Grid.Column="1" Margin="5" >
 						<TextBlock>Value</TextBlock>
 						<TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="Auto" 
@@ -139,7 +140,6 @@
 		</Grid.Resources>
 		
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="25"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
@@ -147,11 +147,10 @@
 			<ColumnDefinition Width="50"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
-		<Label Grid.Row="0" Grid.Column="0">Edit</Label>
-		<Label Grid.Row="1" Grid.Column="0">Key</Label>
-		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="{Binding Path=ReadOnlyKey}"></TextBox>
-		<Label Grid.Row="2" Grid.Column="0">Value</Label>
-		<ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding Path=Data}">
+		<Label Grid.Row="0" Grid.Column="0">Key</Label>
+		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="{Binding Path=ReadOnlyKey}"></TextBox>
+		<Label Grid.Row="1" Grid.Column="0">Value</Label>
+		<ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Path=Data}">
 			<ContentControl.Style>
 				<Style TargetType="{x:Type ContentControl}">
 					<Style.Triggers>
