@@ -112,7 +112,7 @@ namespace RedisExplorer.Common.DataTypes
 					}
 				case RedisType.Hash:
 					{
-						this.Hash = new HashEntry[0];
+						this.Hash = new HashEntry[0].ToList();
 						break;
 					}
 				case RedisType.Set:
@@ -175,7 +175,7 @@ namespace RedisExplorer.Common.DataTypes
 		public RedisData(string key, HashEntry[] hash)
 			: this(key, RedisType.Hash)
 		{
-			this.Hash = hash;
+			this.Hash = hash.ToList();
 			this.loaded = true;
 		}
 

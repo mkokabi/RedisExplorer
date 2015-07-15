@@ -103,7 +103,7 @@
 						<ColumnDefinition Width="75"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					<DataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
+					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
 							  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" ></DataGridTextColumn>
@@ -116,7 +116,7 @@
 									PassEventArgsToCommand="True" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
-					</DataGrid>
+					</UserControl:ScrollingDataGrid>
 					<TextBlock Grid.Row="0" Grid.Column="1">Name</TextBlock>
 					<TextBox Grid.Row="0" Grid.Column="2"
 								Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedHashEntry.Name}" />

@@ -56,8 +56,11 @@ namespace RedisExplorer.UserControl.ViewModel
 						{
 							return;
 						}
-						string oldValue = this.redisData.Hash[this.selectedItemIndex].Value;
-						this.redisData.Hash[this.selectedItemIndex] = new HashEntry(newName, oldValue);
+						if (this.redisData.Hash.Count > this.selectedItemIndex)
+						{
+							string oldValue = this.redisData.Hash[this.selectedItemIndex].Value;
+							this.redisData.Hash[this.selectedItemIndex] = new HashEntry(newName, oldValue);
+						}
 					});
 				Messages.HashEntryValueChanged.Register(
 					this, 
@@ -67,8 +70,11 @@ namespace RedisExplorer.UserControl.ViewModel
 							{
 								return;
 							}
-							string oldName = this.redisData.Hash[this.selectedItemIndex].Name;
-							this.redisData.Hash[this.selectedItemIndex] = new HashEntry(oldName, newValue);
+							if (this.redisData.Hash.Count > this.selectedItemIndex)
+							{
+								string oldName = this.redisData.Hash[this.selectedItemIndex].Name;
+								this.redisData.Hash[this.selectedItemIndex] = new HashEntry(oldName, newValue);
+							}
 						}
 				);
 			}
