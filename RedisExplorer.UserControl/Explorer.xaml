@@ -43,18 +43,30 @@
 						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.String}" Header="String"/>
 						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.List}" Header="List"/>
 						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.Hash}" Header="Hash"/>
+						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.Set}" Header="Set"/>
+						<MenuItem Command="{Binding Path=NewCommand}" CommandParameter="{x:Static Redis:RedisType.SortedSet}" Header="SortedSet"/>
 					</MenuItem>
 				</Menu>
-				<Button Command="{Binding Path=DeleteCommand}">Delete</Button>
+				<Button Command="{Binding Path=DeleteCommand}" ToolTip="Delete">
+					<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\RemoveUsingNamespace_10480.png" />
+				</Button>
 			</ToolBar>
 		</ToolBarTray>
 		<DockPanel Grid.Row="1" LastChildFill="True" Visibility="{Binding EditPanelVisibility}">
 			<ToolBarTray DockPanel.Dock="Top">
 				<ToolBar DockPanel.Dock="Top" >
-					<Button Command="{Binding Path=AddEntryCommand}" Visibility="{Binding Path=IsListType}">Add</Button>
-					<Button Command="{Binding Path=RemoveEntryCommand}" Visibility="{Binding Path=IsListType}">Remove</Button>
-					<Button Command="{Binding Path=SaveCommand}">Save</Button>
-					<Button Command="{Binding Path=CancelCommand}">Cancel</Button>
+					<Button Command="{Binding Path=AddEntryCommand}" Visibility="{Binding Path=IsListType}" ToolTip="Add">
+						<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\NewBuildDefinition_8952.png" />
+					</Button>
+					<Button Command="{Binding Path=RemoveEntryCommand}" Visibility="{Binding Path=IsListType}" ToolTip="Remove">
+						<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\DeleteHS.png" />
+					</Button>
+					<Button Command="{Binding Path=SaveCommand}" ToolTip="Save">
+						<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\save_16xMD.png" />
+					</Button>
+					<Button Command="{Binding Path=CancelCommand}" ToolTip="Cancel">
+						<Image HorizontalAlignment="Left" Height="16" Margin="2,2,0,0" VerticalAlignment="Top" Width="16" Source="Resources\Close_16xLG.png" />
+					</Button>
 				</ToolBar>
 			</ToolBarTray>
 			<UserControl:ValueEditor />
@@ -81,7 +93,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Key" Binding="{Binding Key}" ></DataGridTextColumn>
 				<DataGridTextColumn Header="Type" Binding="{Binding Type}" ></DataGridTextColumn>
-				<DataGridTextColumn Header="Value" Binding="{Binding Text}" ></DataGridTextColumn>
+				<DataGridTextColumn Header="Element" Binding="{Binding Text}" ></DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

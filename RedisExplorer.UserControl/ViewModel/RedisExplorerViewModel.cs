@@ -496,6 +496,12 @@ namespace RedisExplorer.UserControl.ViewModel
 				this.SelectedItem.Hash.Remove(this.SelectedValueEditorViewModel.Data.SelectedHashEntry);
 				this.SelectedItem.RedisData.Hash.Remove(this.SelectedValueEditorViewModel.Data.SelectedHashEntry);
 			}
+			else if (this.SelectedItem.RedisData.Type == RedisType.SortedSet)
+			{
+				// TODO: Investigate how the following two commands can be merged
+				this.SelectedItem.SortedSet.Remove(this.SelectedValueEditorViewModel.Data.SelectedSortedSetEntry);
+				this.SelectedItem.RedisData.SortedSet.Remove(this.SelectedValueEditorViewModel.Data.SelectedSortedSetEntry);
+			}
 		}
 
 		/// <summary>
@@ -516,6 +522,12 @@ namespace RedisExplorer.UserControl.ViewModel
 				this.SelectedItem.Hash.Add(new HashEntryViewModel());
 				this.SelectedItem.RedisData.Hash.Add(new HashEntry());
 				Messages.EntryAdded.Send(RedisType.Hash);
+			}
+			if (this.SelectedItem.RedisData.Type == RedisType.SortedSet)
+			{
+				this.SelectedItem.SortedSet.Add(new SortedSetEntryViewModel());
+				this.SelectedItem.RedisData.SortedSet.Add(new SortedSetEntry());
+				Messages.SortedEntryAdded.Send(RedisType.SortedSet);
 			}
 		}
 

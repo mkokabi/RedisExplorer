@@ -51,7 +51,7 @@ namespace RedisExplorer.Common.DataTypes
 		/// <summary>
 		/// Redis data sorted set.
 		/// </summary>
-		public IEnumerable<SortedSetEntry> SortedSet
+		public IList<SortedSetEntry> SortedSet
 		{
 			get;
 			set;
@@ -191,7 +191,7 @@ namespace RedisExplorer.Common.DataTypes
 		public RedisData(string key, IEnumerable<SortedSetEntry> sortedSet)
 			: this(key, RedisType.SortedSet)
 		{
-			this.SortedSet = sortedSet;
+			this.SortedSet = sortedSet.ToList();
 			this.loaded = true;
 		}
 	}

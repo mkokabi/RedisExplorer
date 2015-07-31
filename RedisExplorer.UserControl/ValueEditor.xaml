@@ -128,13 +128,38 @@
 			</DataTemplate>
 
 			<DataTemplate x:Key="_sortedSetDataTemplate" DataType="{x:Type ViewModel1:ValueEditorViewModel}">
-				<DataGrid Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
-					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Element" Binding="{Binding Path=Element, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
-						<DataGridTextColumn Header="Score" Binding="{Binding Path=Score}" ></DataGridTextColumn>
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="25"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="75"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
+							  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Element" Binding="{Binding Path=Element, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
+							<DataGridTextColumn Header="Score" Binding="{Binding Path=Score}" ></DataGridTextColumn>
+						</DataGrid.Columns>
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="SelectionChanged">
+								<Command:EventToCommand
+								Command="{Binding Path=DataContext.RowChangedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" 
+									PassEventArgsToCommand="True" />
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</UserControl:ScrollingDataGrid>
+					<TextBlock Grid.Row="0" Grid.Column="1">Element</TextBlock>
+					<TextBox Grid.Row="0" Grid.Column="2"
+								Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedSortedSetEntry.Element, Converter={StaticResource RedisValueConverter}}" />
+					<TextBlock Grid.Row="1" Grid.Column="1">Score</TextBlock>
+					<TextBox Grid.Row="1" Grid.Column="2" TextWrapping="Wrap" AcceptsReturn="True"
+								VerticalScrollBarVisibility="Auto"
+								Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SelectedSortedSetEntry.Score}" />
+				</Grid>
 			</DataTemplate>
 			
 		</Grid.Resources>

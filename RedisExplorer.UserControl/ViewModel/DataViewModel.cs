@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
@@ -46,6 +45,16 @@ namespace RedisExplorer.UserControl.ViewModel
 					}
 				).ToList().ForEach(this.hash.Add);
 			}
+			if (redisData.SortedSet != null)
+			{
+				this.sortedSet = new ObservableCollection<SortedSetEntryViewModel>();
+				redisData.SortedSet.Select(sortedSetEntry => new SortedSetEntryViewModel
+				{
+					Element = sortedSetEntry.Element,
+					Score = sortedSetEntry.Score
+				}
+				).ToList().ForEach(this.sortedSet.Add);
+			}
 			if (this.Type == RedisType.Hash)
 			{
 				Messages.HashEntryNameChanged.Register(
@@ -78,6 +87,38 @@ namespace RedisExplorer.UserControl.ViewModel
 						}
 				);
 			}
+			if (this.Type == RedisType.SortedSet)
+			{
+				Messages.SortedEntryScoreChanged.Register(
+					this,
+					newScore =>
+					{
+						if (!this.redisData.Loaded)
+						{
+							return;
+						}
+						if (this.redisData.SortedSet.Count > this.selectedItemIndex)
+						{
+							RedisValue oldValue = this.redisData.SortedSet[this.selectedItemIndex].Element;
+							this.redisData.SortedSet[this.selectedItemIndex] = new SortedSetEntry(oldValue, newScore);
+						}
+					});
+				Messages.SortedEntryValueChanged.Register(
+					this,
+					newValue =>
+					{
+						if (!this.redisData.Loaded)
+						{
+							return;
+						}
+						if (this.redisData.SortedSet.Count > this.selectedItemIndex)
+						{
+							double oldScore = this.redisData.SortedSet[this.selectedItemIndex].Score;
+							this.redisData.SortedSet[this.selectedItemIndex] = new SortedSetEntry(newValue, oldScore);
+						}
+					}
+				);
+			}
 		}
 
 		#region Private fields
@@ -86,7 +127,9 @@ namespace RedisExplorer.UserControl.ViewModel
 		readonly ObservableCollection<string> values;
 
 		readonly ObservableCollection<HashEntryViewModel> hash;
-			
+
+		readonly ObservableCollection<SortedSetEntryViewModel> sortedSet;
+
 		ICommand rowChangedCommand;
 
 		string selectedItem;
@@ -96,6 +139,8 @@ namespace RedisExplorer.UserControl.ViewModel
 		bool ignoreUpdatingValue = true;
 
 		HashEntryViewModel selectedHashEntry;
+
+		SortedSetEntryViewModel selectedSortedSetEntry;
 
 		#endregion
 
@@ -167,6 +212,26 @@ namespace RedisExplorer.UserControl.ViewModel
 		}
 
 		/// <summary>
+		/// The selected sorted set entry when the redis data is a hash.
+		/// </summary>
+		public SortedSetEntryViewModel SelectedSortedSetEntry
+		{
+			get
+			{
+				return this.selectedSortedSetEntry;
+			}
+			set
+			{
+				Set(() => SelectedSortedSetEntry, ref selectedSortedSetEntry, value);
+				if (!ignoreUpdatingValue)
+				{
+					this.SortedSet[this.selectedItemIndex] = value;
+				}
+				this.redisData.SortedSet[this.selectedItemIndex] = value;
+			}
+		}
+
+		/// <summary>
 		/// The redis data key.
 		/// </summary>
 		public string Key
@@ -230,11 +295,11 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// The sorted set values.
 		/// </summary>
 		// TODO: Not completed
-		public IEnumerable<SortedSetEntry> SortedSet
+		public ObservableCollection<SortedSetEntryViewModel> SortedSet
 		{
 			get
 			{
-				return redisData.SortedSet;
+				return this.sortedSet;
 			}
 		}
 
@@ -320,6 +385,10 @@ namespace RedisExplorer.UserControl.ViewModel
 				if (this.Type == RedisType.Hash)
 				{
 					this.SelectedHashEntry = Hash[selectedItemIndex];
+				}
+				else if (this.Type == RedisType.SortedSet)
+				{
+					this.SelectedSortedSetEntry = SortedSet[selectedItemIndex];
 				}
 				else
 				{

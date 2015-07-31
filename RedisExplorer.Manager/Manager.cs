@@ -210,6 +210,12 @@ namespace RedisExplorer.Manager
 						data.Hash.ToList().ForEach(entry => redisDatabase.HashSet(data.Key, data.Hash.ToArray()));
 						break;
 					}
+				case RedisType.SortedSet:
+					{
+						redisDatabase.KeyDelete(data.Key);
+						data.SortedSet.ToList().ForEach(entry => redisDatabase.SortedSetAdd(data.Key, data.SortedSet.ToArray()));
+						break;
+					}
 			}
 		}
 	}

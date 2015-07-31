@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\HashEntryViewModel.cs" />
     <Compile Include="ViewModel\RedisExplorerViewModel.cs" />
     <Compile Include="ScrollingDataGrid.cs" />
+    <Compile Include="ViewModel\SortedSetEntryViewModel.cs" />
     <Compile Include="ViewModel\ValueEditorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Explorer.xaml">
@@ -117,6 +118,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\RemoveUsingNamespace_10480.png" />
+    <Resource Include="Resources\Close_16xLG.png" />
+    <Resource Include="Resources\DeleteHS.png" />
+    <Resource Include="Resources\save_16xMD.png" />
     <Resource Include="Resources\NewBuildDefinition_8952.png" />
     <Resource Include="Resources\Newkey_307.png" />
     <None Include="app.config" />
@@ -141,10 +146,10 @@
     <Resource Include="Resources\Find_5650.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FindNext_13243.png" />
+    <Resource Include="Resources\FindNext_13243.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FindPrevious_13244.png" />
+    <Resource Include="Resources\FindPrevious_13244.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
