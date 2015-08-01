@@ -172,7 +172,6 @@ namespace RedisExplorer.Manager
 		/// <param name="data">
 		/// Redis data.
 		/// </param>
-		// TODO: Not completed
 		public void Update(string database, RedisData data)
 		{
 			if (database == null)

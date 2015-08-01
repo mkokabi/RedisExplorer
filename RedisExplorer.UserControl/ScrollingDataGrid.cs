@@ -2,6 +2,8 @@
 
 namespace RedisExplorer.UserControl
 {
+	using System.Collections;
+
 	using RedisExplorer.UserControl.ViewModel;
 
 	using StackExchange.Redis;
@@ -25,24 +27,27 @@ namespace RedisExplorer.UserControl
 						{
 							return;
 						}
-						// TODO: support for other list types to be added
-						if (type == RedisType.List)
+						IList values = null;
+						if (type == RedisType.List || type == RedisType.Set)
 						{
-							var values = dataViewModel.Values;
-							if (values.Count > 0)
-							{
-								this.SelectedIndex = values.Count - 1;
-								this.ScrollIntoView(values[values.Count - 1]);
-							}
+							values = dataViewModel.Values;
 						}
 						else if (type == RedisType.Hash)
 						{
-							var hash = dataViewModel.Hash;
-							if (hash.Count > 0)
-							{
-								this.SelectedIndex = hash.Count - 1;
-								this.ScrollIntoView(hash[hash.Count - 1]);
-							}
+							values = dataViewModel.Hash;
+						}
+						else if (type == RedisType.SortedSet)
+						{
+							values = dataViewModel.SortedSet;
+						}
+						if (values == null)
+						{
+							return;
+						}
+						if (values.Count > 0)
+						{
+							this.SelectedIndex = values.Count - 1;
+							this.ScrollIntoView(values[values.Count - 1]);
 						}
 				}
 			);

@@ -294,7 +294,6 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// <summary>
 		/// The sorted set values.
 		/// </summary>
-		// TODO: Not completed
 		public ObservableCollection<SortedSetEntryViewModel> SortedSet
 		{
 			get

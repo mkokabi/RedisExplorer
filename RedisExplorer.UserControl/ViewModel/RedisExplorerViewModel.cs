@@ -24,6 +24,8 @@ namespace RedisExplorer.UserControl.ViewModel
 		: ViewModelBase
 	{
 		#region Private fields
+		readonly IManager manager;
+
 		string redisUrl;
 
 		string currentDatabase;
@@ -43,8 +45,6 @@ namespace RedisExplorer.UserControl.ViewModel
 		ICommand gridDoubleClickCommand;
 
 		ValueEditorViewModel selectedValueEditorViewModel;
-
-		IManager manager;
 
 		ICommand newCommand;
 
@@ -467,6 +467,11 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </param>
 		public void SwitchToEditMode(DataViewModel redisData)
 		{
+			if (redisData == null)
+			{
+				MessageBox.Show("Please select a row", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				return;
+			}
 			var index = this.KeyValueCollection.FindIndexByKey(this.SelectedItem.Key);
 			this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
 			this.EditMode = true;
@@ -483,8 +488,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </summary>
 		public void RemoveEntry()
 		{
-			// TODO: Add the other list types
-			if (this.SelectedItem.RedisData.Type == RedisType.List)
+			if (this.SelectedItem.RedisData.Type == RedisType.List || this.SelectedItem.RedisData.Type == RedisType.Set)
 			{
 				// TODO: Investigate how the following two commands can be merged
 				this.SelectedItem.Values.Remove(this.SelectedValueEditorViewModel.Data.SelectedItem);
@@ -509,8 +513,7 @@ namespace RedisExplorer.UserControl.ViewModel
 		/// </summary>
 		public void AddEntry()
 		{
-			// TODO: Add the other list types
-			if (this.SelectedItem.RedisData.Type == RedisType.List)
+			if (this.SelectedItem.RedisData.Type == RedisType.List || this.SelectedItem.RedisData.Type == RedisType.Set)
 			{
 				// TODO: Investigate how the following two commands can be merged
 				this.SelectedItem.Values.Add(string.Empty);
