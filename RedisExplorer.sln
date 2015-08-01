@@ -22,6 +22,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer.Manager", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer.Common", "RedisExplorer.Common\RedisExplorer.Common.csproj", "{6A6907BD-EEEE-4B83-B834-63C81B78E041}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{C43330E0-7266-49E0-ADF8-50BE44737EF1}"
+	ProjectSection(SolutionItems) = preProject
+		Images\RedisExplorerCapture02.PNG = Images\RedisExplorerCapture02.PNG
+		Images\RedisExplorerCapture03.PNG = Images\RedisExplorerCapture03.PNG
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
