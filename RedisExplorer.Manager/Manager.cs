@@ -9,7 +9,7 @@ namespace RedisExplorer.Manager
 	using RedisExplorer.Common;
 	using RedisExplorer.Common.DataTypes;
 	using RedisExplorer.DataTypes;
-
+	
 	using StackExchange.Redis;
 
 	/// <summary>

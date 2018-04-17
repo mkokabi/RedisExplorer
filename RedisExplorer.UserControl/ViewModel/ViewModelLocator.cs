@@ -14,13 +14,12 @@
 
 namespace RedisExplorer.ViewModel
 {
+	using CommonServiceLocator;
 	// TODO: Use Autofac
 	// using Autofac;
 	// using Autofac.Extras.CommonServiceLocator;
 
 	using GalaSoft.MvvmLight.Ioc;
-
-	using Microsoft.Practices.ServiceLocation;
 
 	using RedisExplorer.Common;
 	using RedisExplorer.Manager;

@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer", "RedisExplorer\RedisExplorer.csproj", "{980C0209-3A6A-4F98-87A8-85CFAAF9105D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55DCC54D-E02B-4752-B7FF-CD85BBFF2EDE}"
 	ProjectSection(SolutionItems) = preProject
 		IntegrationTests.testsettings = IntegrationTests.testsettings
@@ -12,6 +10,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Settings.StyleCop = Settings.StyleCop
 		UnitTests.testsettings = UnitTests.testsettings
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{C43330E0-7266-49E0-ADF8-50BE44737EF1}"
+	ProjectSection(SolutionItems) = preProject
+		Images\RedisExplorerCapture02.PNG = Images\RedisExplorerCapture02.PNG
+		Images\RedisExplorerCapture03.PNG = Images\RedisExplorerCapture03.PNG
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer", "RedisExplorer\RedisExplorer.csproj", "{980C0209-3A6A-4F98-87A8-85CFAAF9105D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer_UnitTests", "RedisExplorer\RedisExplorer_UnitTests\RedisExplorer_UnitTests.csproj", "{DDE42BE9-351E-48EB-B60D-B3862FA3A07E}"
 EndProject
@@ -22,12 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer.Manager", "RedisExplorer.Manager\RedisExplorer.Manager.csproj", "{D5676E65-262C-463F-8613-FF7A0911DC72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer.Common", "RedisExplorer.Common\RedisExplorer.Common.csproj", "{6A6907BD-EEEE-4B83-B834-63C81B78E041}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{C43330E0-7266-49E0-ADF8-50BE44737EF1}"
-	ProjectSection(SolutionItems) = preProject
-		Images\RedisExplorerCapture02.PNG = Images\RedisExplorerCapture02.PNG
-		Images\RedisExplorerCapture03.PNG = Images\RedisExplorerCapture03.PNG
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,5 +62,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E49767CB-C402-4EF5-A3EC-A93FB42F82DF}
 	EndGlobalSection
 EndGlobal

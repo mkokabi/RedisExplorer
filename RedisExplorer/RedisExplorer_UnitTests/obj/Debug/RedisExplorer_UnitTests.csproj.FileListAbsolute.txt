@@ -18,3 +18,5 @@ C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\bin\Debug\M
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
 C:\Source\github\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\bin\Debug\GalaSoft.MvvmLight.Extras.xml
+C:\Work\Repos\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\obj\Debug\RedisExplorer_UnitTests.csprojResolveAssemblyReference.cache
+C:\Work\Repos\RedisExplorer\RedisExplorer\RedisExplorer_UnitTests\obj\Debug\RedisExplorer_UnitTests.csproj.CoreCompileInputs.cache
