@@ -44,7 +44,7 @@ namespace RedisExplorer.Manager
 			EndPoint[] endpoints = this.redisConnection.GetEndPoints();
 			this.redisServer = this.redisConnection.GetServer(endpoints[0]);
 			IGrouping<string, KeyValuePair<string, string>>[] infos = this.redisServer.Info();
-			var keyspace = infos.FirstOrDefault(info => info.Key == "Keyspace");
+			var keyspace = infos.FirstOrDefault();
 			if (keyspace != null)
 			{
 				var dbsKeyspaceInfo = keyspace.Where(info => info.Key.StartsWith("db"));
