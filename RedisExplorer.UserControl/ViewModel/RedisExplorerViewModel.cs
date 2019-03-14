@@ -472,7 +472,8 @@ namespace RedisExplorer.UserControl.ViewModel
 				MessageBox.Show("Please select a row", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 				return;
 			}
-			var index = this.KeyValueCollection.FindIndexByKey(this.SelectedItem.Key);
+			var index = this.SelectedItem != null ?
+                this.KeyValueCollection.FindIndexByKey(this.SelectedItem.Key) : 0;
 			this.SelectedItem = new DataViewModel(this.manager.GetValue(this.currentDatabase, redisData.Type, redisData.Key));
 			this.EditMode = true;
 			this.SelectedValueEditorViewModel.Data = this.SelectedItem;

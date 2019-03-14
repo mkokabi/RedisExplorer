@@ -50,6 +50,10 @@ namespace RedisExplorer.Manager
 				var dbsKeyspaceInfo = keyspace.Where(info => info.Key.StartsWith("db"));
 				this.databases = dbsKeyspaceInfo.Select(db => db.Key).ToArray();
 			}
+            if (!this.databases.Any())
+            {
+                this.databases = new[] { "0" };
+            }
 		}
 
 		/// <summary>
@@ -126,7 +130,10 @@ namespace RedisExplorer.Manager
 			{
 				throw new ArgumentNullException("database");
 			}
-			IDatabase redisDatabase = this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
+			IDatabase redisDatabase = 
+                this.GetDatabases().Count == 1 ?
+                this.redisConnection.GetDatabase() :
+                this.redisConnection.GetDatabase(int.Parse(database.Replace("db", string.Empty)));
 
 			IEnumerable<RedisKey> keys = this.redisServer.Keys(pageSize: 10, database: redisDatabase.Database);
 			RedisDataCollection KeyValueCollection = new RedisDataCollection();
