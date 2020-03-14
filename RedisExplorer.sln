@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisExplorer", "RedisExplorer\RedisExplorer.csproj", "{980C0209-3A6A-4F98-87A8-85CFAAF9105D}"
 EndProject
@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{C43330
 		Images\RedisExplorerCapture02.PNG = Images\RedisExplorerCapture02.PNG
 		Images\RedisExplorerCapture03.PNG = Images\RedisExplorerCapture03.PNG
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedEx", "RedEx\RedEx.csproj", "{12D4E666-37B3-474D-8EDB-6FAE8512DAFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,8 +61,15 @@ Global
 		{6A6907BD-EEEE-4B83-B834-63C81B78E041}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A6907BD-EEEE-4B83-B834-63C81B78E041}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A6907BD-EEEE-4B83-B834-63C81B78E041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D4E666-37B3-474D-8EDB-6FAE8512DAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D4E666-37B3-474D-8EDB-6FAE8512DAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D4E666-37B3-474D-8EDB-6FAE8512DAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D4E666-37B3-474D-8EDB-6FAE8512DAFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C509430-8F20-42CE-A2EE-E000ECD59035}
 	EndGlobalSection
 EndGlobal
