@@ -172,9 +172,9 @@
 			<ColumnDefinition Width="50"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
-		<Label Grid.Row="0" Grid.Column="0">Key</Label>
+		<TextBlock Grid.Row="0" Grid.Column="0">Key</TextBlock>
 		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Data.Key}" IsReadOnly="{Binding Path=ReadOnlyKey}"></TextBox>
-		<Label Grid.Row="1" Grid.Column="0">Value</Label>
+        <TextBlock Grid.Row="1" Grid.Column="0">Value</TextBlock>
 		<ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding Path=Data}">
 			<ContentControl.Style>
 				<Style TargetType="{x:Type ContentControl}">
