@@ -39,7 +39,7 @@
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<UserControl:ScrollingDataGrid Grid.Column="0" Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
+					<UserControl:ScrollingDataGrid Grid.Column="0" x:Name="_dataGrid" ItemsSource="{Binding Path=Values}" AutoGenerateColumns="False" 
 					  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Value" Binding="{Binding}" ></DataGridTextColumn>
@@ -103,7 +103,7 @@
 						<ColumnDefinition Width="75"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
+					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="_dataGrid" ItemsSource="{Binding Path=Hash}" AutoGenerateColumns="False" 
 							  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" ></DataGridTextColumn>
@@ -138,7 +138,7 @@
 						<ColumnDefinition Width="75"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
+					<UserControl:ScrollingDataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="_dataGrid" ItemsSource="{Binding Path=SortedSet}" AutoGenerateColumns="False" 
 							  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Element" Binding="{Binding Path=Element, Converter={StaticResource RedisValueConverter}}" ></DataGridTextColumn>
