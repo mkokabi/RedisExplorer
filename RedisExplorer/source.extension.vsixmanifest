@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="27da9abe-6c36-4802-a5ef-6cfee788304e" Version="0.16" Language="en-US" Publisher="Mohsen Kokabi" />
+        <Identity Id="27da9abe-6c36-4802-a5ef-6cfee788304e" Version="0.18" Language="en-US" Publisher="Mohsen Kokabi" />
         <DisplayName>Redis Explorer</DisplayName>
         <Description xml:space="preserve">Redis Explorer</Description>
         <Icon>Resources\Package.ico</Icon>
@@ -18,6 +18,6 @@
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.Net.Core.Component.SDK.2.1" Version="[16.4.29708.42,17.0)" DisplayName=".NET Core 2.1 LTS Runtime" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
 </PackageManifest>
